@@ -1,0 +1,80 @@
+//
+//  Tweak.xm
+//  MessageBox
+//
+//  Created by Adam Bell on 2014-02-04.
+//  Copyright (c) 2014 Adam Bell. All rights reserved.
+//
+
+%config(generator=MobileSubstrate);
+
+#include <mach/mach.h>
+#include <libkern/OSCacheControl.h>
+#include <stdbool.h>
+#include <dlfcn.h>
+#include <notify.h>
+
+#import <sys/sysctl.h>
+
+#import "messagebox.h"
+
+#define ROTATION_PORTRAIT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotatePortrait"
+#define ROTATION_PORTRAIT_UPSIDEDOWN_NOTIFICATION "ca.adambell.messagebox.fbShouldRotatePortraitUpsideDown"
+#define ROTATION_LANDSCAPE_LEFT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateLandscapeLeft"
+#define ROTATION_LANDSCAPE_RIGHT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateLandscapeRight"
+#define DEVICE_ORIENTATION_CHANGED_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateToDeviceOrientation"
+#define PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.pushNotificationReceived"
+#define GENERAL_PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.generalPushNotificationReceived"
+
+extern "C" int xpc_connection_get_pid(id connection);
+
+#include "Facebook.xm"
+#include "SpringBoard.xm"
+
+/**
+ * backboardd Hooks
+ *
+ */
+
+#define XPCObjects "/System/Library/PrivateFrameworks/XPCObjects.framework/XPCObjects"
+
+%group backboarddHooks
+
+static int (*orig_XPConnectionHasEntitlement)(id connection, NSString *entitlement);
+
+static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
+    DebugLog(@"XPCConnectionHasEntitlement... no u");
+
+    //Only grant the required entitlement
+    if (xpc_connection_get_pid(connection) == PIDForProcessNamed(@"SpringBoard") && [entitlement isEqualToString:@"com.apple.multitasking.unlimitedassertions"])
+        return true;
+
+    return orig_XPConnectionHasEntitlement(connection, entitlement);
+}
+
+%end
+
+%ctor {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
+        %init(FacebookHooks);
+    }
+    else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
+        %init(SpringBoardHooks);
+
+        DebugLog(@"BEGIN MESSAGEBOX HOOKS YAY");
+        CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
+        CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.fbLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbQuitting, CFSTR("ca.adambell.messagebox.fbQuitting"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbDidTapChatHead, CFSTR("ca.adambell.messagebox-didTapChatHeadNotification"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        DebugLog(@"END MESSAGEBOX HOOKS YAY");
+    }
+    else {
+        %init(backboarddHooks);
+
+        dlopen(XPCObjects, RTLD_LAZY);
+
+        void *xpcFunction = MSFindSymbol(NULL, "_XPCConnectionHasEntitlement");
+
+        MSHookFunction(xpcFunction, (void *)fb_XPConnectionHasEntitlement, (void **)&orig_XPConnectionHasEntitlement);
+    }
+}

@@ -1,0 +1,2079 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"MBChatHead",
+				"MBChatHeadWindow.h"
+			],
+			[
+				"facebook",
+				"facebookHostView"
+			],
+			[
+				"chatHead",
+				"chatHeadContainerView"
+			],
+			[
+				"stack",
+				"stackView"
+			],
+			[
+				"chatHeadCont",
+				"chatHeadContainerview"
+			],
+			[
+				"_",
+				"_chatHeadViewController"
+			],
+			[
+				"ret",
+				"return"
+			],
+			[
+				"mess",
+				"messagebox.plist"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "messagebox.h",
+			"settings":
+			{
+				"buffer_size": 951,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Tweak.xm",
+			"settings":
+			{
+				"buffer_size": 5393,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "messagebox.sublime-project",
+			"settings":
+			{
+				"buffer_size": 616,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/Adam/Dropbox/Dev/Sublime/User/Logos.tmLanguage",
+			"settings":
+			{
+				"buffer_size": 95258,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 348,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "MBChatHeadWindow.h",
+			"settings":
+			{
+				"buffer_size": 251,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "MBChatHeadWindow.m",
+			"settings":
+			{
+				"buffer_size": 981,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "SpringBoard.xm",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Facebook.xm",
+			"settings":
+			{
+				"buffer_size": 137,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "THEOS make package install",
+	"command_palette":
+	{
+		"height": 207.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"pdf",
+				"LaTeXTools: View PDF"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"latex",
+				"LaTeXTools: View PDF"
+			],
+			[
+				"isntall",
+				"Package Control: Install Package"
+			],
+			[
+				"livereload",
+				"LiveReload: Enable/disable plug-ins"
+			],
+			[
+				"LiveReload: Enable/disable plugins",
+				"LiveReload: Enable/disable plug-ins"
+			],
+			[
+				"live",
+				"LiveReload: Self test"
+			],
+			[
+				"markdown",
+				"Markdown Preview: Python Markdown: Preview in Browser"
+			],
+			[
+				"preview",
+				"Markdown Preview: Python Markdown: Preview in Browser"
+			],
+			[
+				"sublime",
+				"Preferences: SublimeLint Settings – Default"
+			],
+			[
+				"gist",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 655.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"PluginFactory.listPlugins",
+			"PluginFactory",
+			"PluginFactor",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib2,os; pf='Package Control.sublime-package'; ipp=sublime.installed_packages_path(); os.makedirs(ipp) if not os.path.exists(ipp) else None; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read()); print 'Please restart Sublime Text to finish installation'"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/User/Logos.tmLanguage",
+		"/Users/Adam/Dropbox/Dev/Sublime/User/SolarSooty (SL).tmTheme",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/Tweak.xm",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/MBChatHeadWindow.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/MBChatHeadWindow.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/messagebox.sublime-project",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/messagebox.plist",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/Makefile",
+		"/Users/Adam/Dropbox/Dev/iOS/Jailbreak_Dev/messagebox/backboarddHooks.xm",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/User/JSON.sublime-settings",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/AppDelegate.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/AVAudioPlayerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/Appirater.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBGrpHackCajmereIsEnglishOnlySorryWeWillSupportOtherLanguagesSoon.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBGraphQLConnection-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBGroup.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBPhotoBottomGradientLayer.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMemBookmark.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/Facebook.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBDirectionalPanGestureRecognizerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphObjectMemProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphActionMemProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBPhotoGridCellProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBBugReportScreenshotListViewDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBBugReportModalViewControllerPresenting-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphObjectProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphAvatarEntity-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphActionProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBLiveGraphQLSessionDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBOpenGraphEntity-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBBugReportComposerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBBugReportCategoriesDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMLeaveGroupThreadRequesterDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/GroupPinnedStoriesEdgeFragment.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/GroupPinnedStoriesConnectionFragment.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/GCDAsyncReadPacket.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/GCDAsyncSocket.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBAppModuleManager.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBAppModule-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBApplication.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBAPIResponse.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBTabBarAnimatedNuxView.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBBackboardView.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBCropBottomBar.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBManagedObject.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBFaceBoxMemProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UINavigationController-FBAnalytics.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/ZREmbeddedMapInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/ZREmbeddedInterstitialPlaceholderViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBQuickPromotionInterstitialStepViewControllerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIViewController-FBAnalytics.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBContactImporterInterstitialViewControllerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBZeroOptinInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIViewController-FBSwipeNavigationController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMessengerInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/ZREmbeddedInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIViewController-NoAutolayout.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMessengerInterstitialController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/MNInvalidTokenErrorNotificationHandler.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBZeroOptinInterstitialViewControllerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMessengerInterstitialViewControllerDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBNuxInterstitialViewController.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBSupportedInterfaceOrientations-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/_FBInteractorsConnectionCoreDataProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/_FBInteractorsConnectionMemProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/_FBInteractorsConnectionProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractorsConnectionCoreDataProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractorsConnectionMemProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractorsConnectionProtocol-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/_FBMemInteractorsConnectionBuilder.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMemInteractorsConnectionBuilder.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractivePhotoNodeDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBStoryMetricsCalculatorCacheInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInterationLagLogger-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInterationLagAnalyticsLogger.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractionLagTracker.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBInteractionLagLogger.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/PSTLegacyCollectionViewInternalPendingAnimation.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIViewController-FBBubbleControllerInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/ZRTariffedUxSessionInternal-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/NSMutableAttributedString-StoryStringsInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMStickerHelperInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIView-FBViewNodeInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/CALayer-FBViewNodeInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBMTextViewInternal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/UIViewController-FBPopoverController_Internal.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/FBNuxInterstitial.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/InAppNotificationTapDelegate-Protocol.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/InAppNotificationManager.h",
+		"/Users/Adam/Downloads/fb/fb/Payload/PaperHeaders/Identifier.h",
+		"/Users/Adam/Downloads/Logarithms.tex",
+		"/Users/Adam/Downloads/Logarithms.latex",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/Stratus-Info.plist",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/Stratus-Prefix.pch",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherForecast.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SASolarActivityIndicator.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SACrossfadingImageView.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAAppDelegate.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherLocation.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherLocation.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherForecast.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherAPI.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAWeatherAPI.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAViewController.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAViewController.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SASolarActivityIndicator.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SASearchScrollView.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SASearchScrollView.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SACrossfadingImageView.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SABlurryTableViewCell.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SABlurryTableViewCell.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SABlurryTableView.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SABlurryTableView.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAAppDelegate.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAAnimatedButton.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/SAAnimatedButton.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/NGAParallaxMotion.m",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/NGAParallaxMotion.h",
+		"/Users/Adam/Dropbox/Dev/iOS/Projects/Stratus/Stratus/main.m",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/Default/Default ().sublime-keymap",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/User/LiveReload.sublime-settings",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/LiveReload/SimpleReloadPlugin.py",
+		"/Users/Adam/Library/Application Support/Sublime Text 3/Packages/LiveReload/LiveReload.sublime-settings"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"scope",
+			"FFF",
+			"FFFFFF",
+			"A6E22E",
+			"class",
+			"	",
+			"    ",
+			"	",
+			"build",
+			"_internal",
+			"close",
+			"open",
+			"player"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "messagebox.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 951,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								135,
+								135
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Tweak.xm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5393,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2160,
+								2160
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/User/Logos.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1770.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "messagebox.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 616,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								69,
+								69
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/Adam/Dropbox/Dev/Sublime/User/Logos.tmLanguage",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 95258,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2032,
+								2032
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"is_xml": true,
+							"sublime_auto_complete": true,
+							"syntax": "Packages/XML/XML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 508.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								161,
+								161
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Makefile Improved/Makefile Improved.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "MBChatHeadWindow.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 251,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								228,
+								228
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "MBChatHeadWindow.m",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 981,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								283,
+								283
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Objective-C/Objective-C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "SpringBoard.xm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/User/Logos.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "Facebook.xm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 137,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								137,
+								137
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/User/Logos.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 195.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "messagebox.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"appdele",
+				"AppDelegate.h"
+			],
+			[
+				"fbgrphack",
+				"FBGrpHackCajmereIsEnglishOnlySorryWeWillSupportOtherLanguagesSoon.h"
+			],
+			[
+				"fbappmodulemana",
+				"FBAppModuleManager.h"
+			],
+			[
+				"fbbackboardviewcon",
+				"FBBackboardViewController.h"
+			],
+			[
+				"fbmainstac",
+				"FBMainStackViewController.h"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 235.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
