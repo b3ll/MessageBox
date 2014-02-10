@@ -12,8 +12,8 @@
 @end
 
 @interface SBWindowContextHostWrapperView : UIView
-@property(retain, nonatomic) UIColor *backgroundColorWhileNotHosting;
-@property(retain, nonatomic) UIColor *backgroundColorWhileHosting;
+@property(nonatomic, strong) UIColor *backgroundColorWhileNotHosting;
+@property(nonatomic, strong) UIColor *backgroundColorWhileHosting;
 @end
 
 @interface SBWindowContextHostManager : NSObject
@@ -91,7 +91,16 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
     ProcessAssertionFlagWantsForegroundResourcePriority  = 1 << 3
 };
 
+@interface FBChatHeadSurfaceView : UIView
+- (void)sortChatHeads;
+@property (nonatomic) BOOL hasInbox;
+@property (nonatomic) BOOL hasComposer;
+@end
+
 @interface FBChatHeadViewController : UIViewController
+- (FBChatHeadSurfaceView *)chatHeadSurfaceView;
+- (void)showComposerChatHead;
+- (void)resignChatHeadViews;
 @end
 
 @interface FBMessengerModule : NSObject

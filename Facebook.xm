@@ -17,19 +17,67 @@ static FBMessengerModule *_messengerModule;
  */
 %group FacebookHooks
 
+// Keyboards also need to be shown when the app is backgrounded
+%hook UITextEffectsWindow
+
+- (void)setKeepContextInBackground:(BOOL)keepContext {
+    %orig(YES);
+}
+
+- (BOOL)keepContextInBackground {
+    return YES;
+}
+
+%end
+
+// Need to force the app to believe it's still active... no notifications for you! >:D
+%hook NSNotificationCenter
+
+- (void)postNotificationName:(NSString *)notificationName object:(id)notificationSender userInfo:(NSDictionary *)userInfo {
+    NSString *notification = [notificationName lowercaseString];
+    if ([notification rangeOfString:@"background"].location != NSNotFound) {
+        return;
+    }
+
+    DebugLog(@"Notification Posted: %@ object: %@ userInfo: %@", notificationName, notificationSender, userInfo);
+    %orig;
+}
+
+%end
+
+%hook UIApplication
+
+- (UIApplicationState)applicationState {
+    return UIApplicationStateActive;
+}
+
+%end
+
 %hook AppDelegate
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbQuitting");
     DebugLog(@"FACEBOOK QUITTING RIGHT NOW");
-    [[%c(FBApplicationController) sharedInstance] setUIHiddenForMessageBox:YES];
+
+    FBApplicationController *controller = [%c(FBApplicationController) sharedInstance];
+
+    controller.messengerModule.chatHeadViewController.chatHeadSurfaceView.hasInbox = YES;
+    [controller.messengerModule.chatHeadViewController showComposerChatHead];
+    [controller.messengerModule.chatHeadViewController resignChatHeadViews];
+    [controller.messengerModule.chatHeadViewController.chatHeadSurfaceView sortChatHeads];
+
+    [controller setUIHiddenForMessageBox:YES];
+
     %orig;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbLaunching");
     DebugLog(@"FACEBOOK OPENING RIGHT NOW");
-    [[%c(FBApplicationController) sharedInstance] setUIHiddenForMessageBox:NO];
+
+    FBApplicationController *controller = [%c(FBApplicationController) sharedInstance];
+    [controller setUIHiddenForMessageBox:NO];
+
     %orig;
 }
 

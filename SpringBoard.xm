@@ -23,7 +23,6 @@ static void fbDidTapChatHead(CFNotificationCenterRef center, void *observer, CFS
     SBIconController *iconController = [%c(SBIconController) sharedInstance];
 
     //If icons are wiggling and a chat head is tapped, stop the wiggling
-
     if (iconController.isEditing)
         [iconController setIsEditing:NO];
 }
@@ -76,6 +75,13 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
 
     [_chatHeadWindow addSubview:facebookHostView];
+
+    _chatHeadWindow.alpha = 0.0;
+
+    [UIView animateWithDuration:0.3
+                     animations:^() {
+                                    _chatHeadWindow.alpha = 1.0;
+                                }];
 }
 
 %new
