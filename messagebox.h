@@ -33,8 +33,8 @@
 @interface SBIconController : NSObject
 + (instancetype)sharedInstance;
 
-- (void)addChatHeadWindow;
-- (void)removeChatHeadWindow;
+- (void)mb_addChatHeadWindow;
+- (void)mb_removeChatHeadWindow;
 
 - (void)setIsEditing:(BOOL)editing;
 - (BOOL)isEditing;
@@ -92,12 +92,14 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 };
 
 @interface FBChatHeadSurfaceView : UIView
-- (void)sortChatHeads;
-@property (nonatomic) BOOL hasInbox;
 @property (nonatomic) BOOL hasComposer;
+
+- (void)sortChatHeads;
 @end
 
 @interface FBChatHeadViewController : UIViewController
+@property (nonatomic) BOOL hasInboxChatHead;
+
 - (FBChatHeadSurfaceView *)chatHeadSurfaceView;
 - (void)showComposerChatHead;
 - (void)resignChatHeadViews;
@@ -108,13 +110,24 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 @end
 
 @interface FBApplicationController : NSObject
-+ (instancetype)sharedInstance;
++ (instancetype)mb_sharedInstance;
 
 - (FBMessengerModule *)messengerModule;
-- (void)setUIHiddenForMessageBox:(BOOL)hidden;
+- (void)mb_setUIHiddenForMessageBox:(BOOL)hidden;
 @end
 
 @interface FBStackView : UIView
+@end
+
+@interface FBMInboxView : UIView
+@property(nonatomic) BOOL showPublisherBar;
+
+- (BOOL)mb_shouldShowPublisherBar;
+@end
+
+@interface FBMInboxViewController : UIViewController
+
+@property(nonatomic, strong) FBMInboxView *inboxView;
 @end
 
 inline int PIDForProcessNamed(NSString *passedInProcessName) {

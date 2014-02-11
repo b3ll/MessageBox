@@ -28,17 +28,37 @@ static void fbDidTapChatHead(CFNotificationCenterRef center, void *observer, CFS
 }
 
 static void fbLaunching(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    [[%c(SBUIController) sharedInstance] removeChatHeadWindow];
+    [[%c(SBUIController) sharedInstance] mb_removeChatHeadWindow];
 }
 
 static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    [[%c(SBUIController) sharedInstance] addChatHeadWindow];
+    [[%c(SBUIController) sharedInstance] mb_addChatHeadWindow];
 }
 
 %hook SBUIController
 
+//Stack up the chat heads when the home button is pressed
+
+- (BOOL)clickedMenuButton {
+    //To keep in app as stock as possible, don't intercept the home button when the app is active
+    //So only take action if FB is active but in the background
+    if ([_keepAlive valid]) {
+        notify_post("ca.adambell.messagebox.fbResignChatHeads");
+    }
+
+    return %orig;
+}
+
+- (BOOL)handleMenuDoubleTap {
+    if ([_keepAlive valid]) {
+        notify_post("ca.adambell.messagebox.fbResignChatHeads");
+    }
+
+    return %orig;
+}
+
 %new
-- (void)addChatHeadWindow {
+- (void)mb_addChatHeadWindow {
     int facebookPID = PIDForProcessNamed(@"Paper");
     if (facebookPID == 0)
         return;
@@ -78,14 +98,18 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
 
     _chatHeadWindow.alpha = 0.0;
 
-    [UIView animateWithDuration:0.3
-                     animations:^() {
-                                    _chatHeadWindow.alpha = 1.0;
-                                }];
+    [UIView animateWithDuration:0.4
+                          delay:0.5
+                        options:0
+                     animations:^{
+                            _chatHeadWindow.alpha = 1.0;
+                        }
+                     completion:nil];
+
 }
 
 %new
-- (void)removeChatHeadWindow {
+- (void)mb_removeChatHeadWindow {
     if (_keepAlive != nil) {
         // Kill the BKSProcessAssertion because it isn't needed anymore
         // Not sure if creating / removing it is necessary but I'd like to keep it as stock as possible when in app)
@@ -102,6 +126,8 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         for (UIView *subview in [[MBChatHeadWindow sharedInstance].subviews copy]) {
             [subview removeFromSuperview];
         }
+
+        _chatHeadWindow.alpha = 0.0;
     }
 }
 

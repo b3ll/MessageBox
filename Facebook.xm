@@ -11,6 +11,8 @@
 static FBApplicationController *_applicationController;
 static FBMessengerModule *_messengerModule;
 
+static BOOL shouldShowPublisherBar = NO;
+
 /**
  * Facebook Hooks
  *
@@ -59,14 +61,9 @@ static FBMessengerModule *_messengerModule;
     notify_post("ca.adambell.messagebox.fbQuitting");
     DebugLog(@"FACEBOOK QUITTING RIGHT NOW");
 
-    FBApplicationController *controller = [%c(FBApplicationController) sharedInstance];
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
 
-    controller.messengerModule.chatHeadViewController.chatHeadSurfaceView.hasInbox = YES;
-    [controller.messengerModule.chatHeadViewController showComposerChatHead];
-    [controller.messengerModule.chatHeadViewController resignChatHeadViews];
-    [controller.messengerModule.chatHeadViewController.chatHeadSurfaceView sortChatHeads];
-
-    [controller setUIHiddenForMessageBox:YES];
+    [controller mb_setUIHiddenForMessageBox:YES];
 
     %orig;
 }
@@ -75,8 +72,9 @@ static FBMessengerModule *_messengerModule;
     notify_post("ca.adambell.messagebox.fbLaunching");
     DebugLog(@"FACEBOOK OPENING RIGHT NOW");
 
-    FBApplicationController *controller = [%c(FBApplicationController) sharedInstance];
-    [controller setUIHiddenForMessageBox:NO];
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+
+    [controller mb_setUIHiddenForMessageBox:NO];
 
     %orig;
 }
@@ -84,19 +82,26 @@ static FBMessengerModule *_messengerModule;
 %end
 
 %hook FBApplicationController
+
 - (id)initWithSession:(id)session {
     _applicationController = %orig;
-
     return _applicationController;
 }
 
 %new
-- (void)setUIHiddenForMessageBox:(BOOL)hidden {
++ (id)mb_sharedInstance {
+    return _applicationController;
+}
+
+%new
+- (void)mb_setUIHiddenForMessageBox:(BOOL)hidden {
     [[UIApplication sharedApplication].keyWindow setKeepContextInBackground:hidden];
 
     [UIApplication sharedApplication].keyWindow.backgroundColor = hidden ? [UIColor clearColor] : [UIColor blackColor];
 
     FBChatHeadViewController *chatHeadController = _applicationController.messengerModule.chatHeadViewController;
+    [chatHeadController resignChatHeadViews];
+    [chatHeadController setHasInboxChatHead:hidden];
 
     FBStackView *stackView = (FBStackView *)chatHeadController.view;
     UIView *chatHeadContainerView = stackView;
@@ -114,14 +119,46 @@ static FBMessengerModule *_messengerModule;
             view.hidden = hidden;
     }
 
-    [[UIApplication sharedApplication].keyWindow setNeedsDisplay];
-}
+    // Account for status bar
+    CGRect chatHeadWindowFrame = [UIScreen mainScreen].bounds;
+    if (hidden) {
+        chatHeadWindowFrame.origin.y += 20.0;
+        chatHeadWindowFrame.size.height -= 20.0;
+    }
 
-%new
-+ (id)sharedInstance {
-    return _applicationController;
+    [UIApplication sharedApplication].keyWindow.frame = chatHeadWindowFrame;
+
+    shouldShowPublisherBar = hidden;
 }
 
 %end
+
+%hook FBMInboxViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    %orig;
+
+    self.inboxView.showPublisherBar = 0;
+}
+
+%end
+
+%hook FBMInboxView
+
+- (void)setShowPublisherBar:(BOOL)showPublisherBar {
+    %orig([self mb_shouldShowPublisherBar]);
+}
+
+%new
+- (BOOL)mb_shouldShowPublisherBar {
+    return shouldShowPublisherBar;
+}
+
+%end
+
+static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    [controller.messengerModule.chatHeadViewController resignChatHeadViews];
+}
 
 %end

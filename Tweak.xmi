@@ -57,6 +57,9 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
 %ctor {
     if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
         %init(FacebookHooks);
+
+        CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
+        CFNotificationCenterAddObserver(darwin, NULL, fbResignChatHeads, CFSTR("ca.adambell.messagebox.fbResignChatHeads"), NULL, CFNotificationSuspensionBehaviorCoalesce);
     }
     else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
         %init(SpringBoardHooks);
@@ -65,7 +68,7 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.fbLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbQuitting, CFSTR("ca.adambell.messagebox.fbQuitting"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-        CFNotificationCenterAddObserver(darwin, NULL, fbDidTapChatHead, CFSTR("ca.adambell.messagebox-didTapChatHeadNotification"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbDidTapChatHead, CFSTR("ca.adambell.MessageBox.fbDidTapChatHead"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         DebugLog(@"END MESSAGEBOX HOOKS YAY");
     }
     else {
