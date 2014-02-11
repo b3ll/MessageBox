@@ -11,6 +11,10 @@
 - (void)setKeepContextInBackground:(BOOL)keepContext;
 @end
 
+@interface UITextEffectsWindow : UIWindow
++ (UITextEffectsWindow *)preferredTextEffectsWindow;
+@end
+
 @interface SBWindowContextHostWrapperView : UIView
 @property(nonatomic, strong) UIColor *backgroundColorWhileNotHosting;
 @property(nonatomic, strong) UIColor *backgroundColorWhileHosting;

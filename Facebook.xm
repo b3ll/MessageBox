@@ -30,6 +30,14 @@ static BOOL shouldShowPublisherBar = NO;
     return YES;
 }
 
+- (CGFloat)windowLevel {
+    return 1003.0f;
+}
+
+- (void)setWindowLevel:(CGFloat)windowLevel {
+    %orig(1003.0f);
+}
+
 %end
 
 // Need to force the app to believe it's still active... no notifications for you! >:D
@@ -57,12 +65,23 @@ static BOOL shouldShowPublisherBar = NO;
 
 %hook AppDelegate
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    BOOL didFinishLaunching = %orig;
+
+    for (UIWindow *window in application.windows) {
+        [window setKeepContextInBackground:YES];
+    }
+
+    return didFinishLaunching;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbQuitting");
     DebugLog(@"FACEBOOK QUITTING RIGHT NOW");
 
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
     [controller mb_setUIHiddenForMessageBox:YES];
 
     %orig;
@@ -73,7 +92,6 @@ static BOOL shouldShowPublisherBar = NO;
     DebugLog(@"FACEBOOK OPENING RIGHT NOW");
 
     FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
-
     [controller mb_setUIHiddenForMessageBox:NO];
 
     %orig;
