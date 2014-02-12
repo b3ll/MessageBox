@@ -5,7 +5,8 @@
             "follow_symlinks": false,
             "path": ".",
             "file_exclude_patterns": [
-                "*.deb"
+                "*.deb",
+                ".gitignore"
             ],
             "folder_exclude_patterns": [
                 "_",

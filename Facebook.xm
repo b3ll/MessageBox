@@ -8,16 +8,36 @@
 
 #import "messagebox.h"
 
+#define KEYBOARD_WINDOW_LEVEL 1003.0f
+
 static FBApplicationController *_applicationController;
 static FBMessengerModule *_messengerModule;
 
-static BOOL shouldShowPublisherBar = NO;
+static BOOL _shouldShowPublisherBar = NO;
+
+static BOOL _ignoreBackgroundedNotifications = YES;
 
 /**
  * Facebook Hooks
  *
  */
 %group FacebookHooks
+
+static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    [controller.messengerModule.chatHeadViewController resignChatHeadViews];
+}
+
+static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    _ignoreBackgroundedNotifications = YES;
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    [controller.messengerModule enteredForeground];
+}
+
+static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    _ignoreBackgroundedNotifications = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil userInfo:nil];
+}
 
 // Keyboards also need to be shown when the app is backgrounded
 %hook UITextEffectsWindow
@@ -30,12 +50,13 @@ static BOOL shouldShowPublisherBar = NO;
     return YES;
 }
 
+// Paper does some weird shit with window levels... no u
 - (CGFloat)windowLevel {
-    return 1003.0f;
+    return KEYBOARD_WINDOW_LEVEL;
 }
 
 - (void)setWindowLevel:(CGFloat)windowLevel {
-    %orig(1003.0f);
+    %orig(KEYBOARD_WINDOW_LEVEL);
 }
 
 %end
@@ -45,7 +66,7 @@ static BOOL shouldShowPublisherBar = NO;
 
 - (void)postNotificationName:(NSString *)notificationName object:(id)notificationSender userInfo:(NSDictionary *)userInfo {
     NSString *notification = [notificationName lowercaseString];
-    if ([notification rangeOfString:@"background"].location != NSNotFound) {
+    if ([notification rangeOfString:@"background"].location != NSNotFound && _ignoreBackgroundedNotifications) {
         return;
     }
 
@@ -58,7 +79,10 @@ static BOOL shouldShowPublisherBar = NO;
 %hook UIApplication
 
 - (UIApplicationState)applicationState {
-    return UIApplicationStateActive;
+    if (_ignoreBackgroundedNotifications)
+        return UIApplicationStateActive;
+    else
+        return %orig;
 }
 
 %end
@@ -146,7 +170,7 @@ static BOOL shouldShowPublisherBar = NO;
 
     [UIApplication sharedApplication].keyWindow.frame = chatHeadWindowFrame;
 
-    shouldShowPublisherBar = hidden;
+    _shouldShowPublisherBar = hidden;
 }
 
 %end
@@ -169,14 +193,9 @@ static BOOL shouldShowPublisherBar = NO;
 
 %new
 - (BOOL)mb_shouldShowPublisherBar {
-    return shouldShowPublisherBar;
+    return _shouldShowPublisherBar;
 }
 
 %end
-
-static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
-    [controller.messengerModule.chatHeadViewController resignChatHeadViews];
-}
 
 %end

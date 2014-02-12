@@ -57,6 +57,30 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     return %orig;
 }
 
+- (id)init {
+    SBUIController *controller = %orig;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mb_screenOn:)
+                                                 name:@"SBLockScreenUndimmedNotification"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mb_screenOff:)
+                                                 name:@"SBLockScreenDimmedNotification"
+                                               object:nil];
+    return controller;
+}
+
+%new
+- (void)mb_screenOn:(NSNotification *)notification {
+    notify_post("ca.adambell.messagebox.fbForceActive");
+}
+
+%new
+- (void)mb_screenOff:(NSNotification *)notification {
+    notify_post("ca.adambell.messagebox.fbForceBackground");
+}
+
 %new
 - (void)mb_addChatHeadWindow {
     int facebookPID = PIDForProcessNamed(@"Paper");

@@ -111,6 +111,7 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 
 @interface FBMessengerModule : NSObject
 - (FBChatHeadViewController *)chatHeadViewController;
+- (void)enteredForeground;
 @end
 
 @interface FBApplicationController : NSObject
