@@ -9,6 +9,8 @@
 #import "messagebox.h"
 #import "MBChatHeadWindow.h"
 
+#define USE_SPRINGS YES
+
 /**
  * SpringBoard Hooks
  *
@@ -141,15 +143,33 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
 
     [_chatHeadWindow addSubview:facebookHostView];
 
-    _chatHeadWindow.alpha = 0.0;
+    [_chatHeadWindow hide];
 
-    [UIView animateWithDuration:0.4
-                          delay:0.5
-                        options:0
-                     animations:^{
-                            _chatHeadWindow.alpha = 1.0;
-                        }
-                     completion:nil];
+    CATransform3D scaleTransform = CATransform3DMakeScale(1.4, 1.0, 1.0);
+    _chatHeadWindow.layer.transform = scaleTransform;
+
+    [_chatHeadWindow performSelector:@selector(show) withObject:nil afterDelay:0.4];
+
+    if (USE_SPRINGS) {
+        [UIView animateWithDuration:0.6
+                              delay:0.4
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:0.6
+                            options:0
+                         animations:^{
+                                _chatHeadWindow.layer.transform = CATransform3DIdentity;
+                            }
+                         completion:nil];
+    }
+    else {
+        [UIView animateWithDuration:0.4
+                      delay:0.5
+                    options:0
+                 animations:^{
+                        _chatHeadWindow.layer.transform = CATransform3DIdentity;
+                    }
+                 completion:nil];
+    }
 
 }
 
@@ -171,9 +191,9 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         for (UIView *subview in [[MBChatHeadWindow sharedInstance].subviews copy]) {
             [subview removeFromSuperview];
         }
-
-        _chatHeadWindow.alpha = 0.0;
     }
+
+    [_chatHeadWindow hide];
 }
 
 %end

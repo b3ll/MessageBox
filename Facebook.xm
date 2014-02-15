@@ -80,6 +80,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     }
 
     DebugLog(@"Notification Posted: %@ object: %@ userInfo: %@", notificationName, notificationSender, userInfo);
+
     %orig;
 }
 
@@ -107,28 +108,6 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
     return didFinishLaunching;
 }
-
-/*- (void)applicationWillResignActive:(UIApplication *)application {
-    notify_post("ca.adambell.messagebox.fbQuitting");
-    DebugLog(@"FACEBOOK QUITTING RIGHT NOW");
-
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
-
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
-    [controller mb_setUIHiddenForMessageBox:YES];
-
-    %orig;
-}*/
-
-/*- (void)applicationWillEnterForeground:(UIApplication *)application {
-    notify_post("ca.adambell.messagebox.fbLaunching");
-    DebugLog(@"FACEBOOK OPENING RIGHT NOW");
-
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
-    [controller mb_setUIHiddenForMessageBox:NO];
-
-    %orig;
-}*/
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbLaunching");

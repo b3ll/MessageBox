@@ -13,5 +13,7 @@
 }
 
 + (instancetype)sharedInstance;
+- (void)hide;
+- (void)show;
 
 @end

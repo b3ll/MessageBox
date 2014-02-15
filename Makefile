@@ -11,9 +11,9 @@ TWEAK_NAME = messagebox
 messagebox_CFLAGS = -fobjc-arc
 messagebox_FILES = MBChatHeadWindow.m Tweak.xmi
 messagebox_LIBRARIES = substrate rocketbootstrap
-messagebox_FRAMEWORKS = Foundation QuartzCore UIKit AppSupport
+messagebox_FRAMEWORKS = Foundation CoreGraphics QuartzCore UIKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
-	install.exec "killall -9 Paper"
+	install.exec "killall -9 backboardd"

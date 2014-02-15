@@ -47,4 +47,12 @@
     }
 }
 
+- (void)hide {
+    self.hidden = YES;
+}
+
+- (void)show {
+    self.hidden = NO;
+}
+
 @end
