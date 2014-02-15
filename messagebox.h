@@ -1,11 +1,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "rocketbootstrap.h"
+
 #ifdef DEBUG
     #define DebugLog(str, ...) NSLog(str, ##__VA_ARGS__)
 #else
     #define DebugLog(str, ...)
 #endif
+
+@interface UIApplication (hax)
+- (void)applicationOpenURL:(NSURL *)url;
+@end
 
 @interface UIWindow (hax)
 - (void)setKeepContextInBackground:(BOOL)keepContext;
@@ -13,6 +19,13 @@
 
 @interface UITextEffectsWindow : UIWindow
 + (UITextEffectsWindow *)preferredTextEffectsWindow;
+@end
+
+@interface CPDistributedMessagingCenter : NSObject
++ (CPDistributedMessagingCenter *)centerNamed:(NSString *)name;
+- (void)runServerOnCurrentThread;
+- (void)registerForMessageName:(NSString *)name target:(id)target selector:(SEL)selector;
+- (void)sendMessageName:(NSString *)message userInfo:(NSDictionary *)userInfo;
 @end
 
 @interface SBWindowContextHostWrapperView : UIView
@@ -109,16 +122,22 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 - (void)resignChatHeadViews;
 @end
 
+@interface FBMessengerModuleSession : NSObject
+- (void)enteredForeground;
+@end
+
 @interface FBMessengerModule : NSObject
 - (FBChatHeadViewController *)chatHeadViewController;
-- (void)enteredForeground;
+@property (nonatomic, strong) FBMessengerModuleSession *moduleSession;
 @end
 
 @interface FBApplicationController : NSObject
 + (instancetype)mb_sharedInstance;
 
 - (FBMessengerModule *)messengerModule;
+
 - (void)mb_setUIHiddenForMessageBox:(BOOL)hidden;
+- (void)mb_openURL:(NSURL *)url;
 @end
 
 @interface FBStackView : UIView

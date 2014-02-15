@@ -68,7 +68,28 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
                                              selector:@selector(mb_screenOff:)
                                                  name:@"SBLockScreenDimmedNotification"
                                                object:nil];
+
+    CPDistributedMessagingCenter *messagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.messageboxcenter"];
+    rocketbootstrap_distributedmessagingcenter_apply(messagingCenter);
+    [messagingCenter runServerOnCurrentThread];
+    [messagingCenter registerForMessageName:@"messageboxOpenURL" target:self selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
+
     return controller;
+}
+
+%new
+- (void)mb_handleMessageBoxMessage:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
+    if ([message isEqualToString:@"messageboxOpenURL"]) {
+        NSString *urlString = userInfo[@"url"];
+
+        if (urlString != nil) {
+            NSURL *url = [NSURL URLWithString:urlString];
+
+            if (url != nil) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
 }
 
 %new

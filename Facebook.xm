@@ -17,6 +17,8 @@ static BOOL _shouldShowPublisherBar = NO;
 
 static BOOL _ignoreBackgroundedNotifications = YES;
 
+static BOOL _UIHiddenForMessageBox;
+
 /**
  * Facebook Hooks
  *
@@ -31,7 +33,7 @@ static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CF
 static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _ignoreBackgroundedNotifications = YES;
     FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
-    [controller.messengerModule enteredForeground];
+    [controller.messengerModule.moduleSession enteredForeground];
 }
 
 static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
@@ -67,6 +69,13 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 - (void)postNotificationName:(NSString *)notificationName object:(id)notificationSender userInfo:(NSDictionary *)userInfo {
     NSString *notification = [notificationName lowercaseString];
     if ([notification rangeOfString:@"background"].location != NSNotFound && _ignoreBackgroundedNotifications) {
+        notify_post("ca.adambell.messagebox.fbQuitting");
+
+        [[UIApplication sharedApplication].keyWindow endEditing:YES];
+
+        FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+        [controller mb_setUIHiddenForMessageBox:YES];
+
         return;
     }
 
@@ -99,7 +108,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     return didFinishLaunching;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
+/*- (void)applicationWillResignActive:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbQuitting");
     DebugLog(@"FACEBOOK QUITTING RIGHT NOW");
 
@@ -109,9 +118,19 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     [controller mb_setUIHiddenForMessageBox:YES];
 
     %orig;
-}
+}*/
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
+/*- (void)applicationWillEnterForeground:(UIApplication *)application {
+    notify_post("ca.adambell.messagebox.fbLaunching");
+    DebugLog(@"FACEBOOK OPENING RIGHT NOW");
+
+    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    [controller mb_setUIHiddenForMessageBox:NO];
+
+    %orig;
+}*/
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
     notify_post("ca.adambell.messagebox.fbLaunching");
     DebugLog(@"FACEBOOK OPENING RIGHT NOW");
 
@@ -137,11 +156,13 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
 %new
 - (void)mb_setUIHiddenForMessageBox:(BOOL)hidden {
+    _UIHiddenForMessageBox = hidden;
+
     [[UIApplication sharedApplication].keyWindow setKeepContextInBackground:hidden];
 
     [UIApplication sharedApplication].keyWindow.backgroundColor = hidden ? [UIColor clearColor] : [UIColor blackColor];
 
-    FBChatHeadViewController *chatHeadController = _applicationController.messengerModule.chatHeadViewController;
+    FBChatHeadViewController *chatHeadController = self.messengerModule.chatHeadViewController;
     [chatHeadController resignChatHeadViews];
     [chatHeadController setHasInboxChatHead:hidden];
 
@@ -173,6 +194,16 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     _shouldShowPublisherBar = hidden;
 }
 
+%new
+- (void)mb_openURL:(NSURL *)url {
+    CPDistributedMessagingCenter *messagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.messageboxcenter"];
+    rocketbootstrap_distributedmessagingcenter_apply(messagingCenter);
+    [messagingCenter sendMessageName:@"messageboxOpenURL" userInfo:@{ @"url" : [url absoluteString] }];
+
+    FBChatHeadViewController *chatHeadController = self.messengerModule.chatHeadViewController;
+    [chatHeadController resignChatHeadViews];
+}
+
 %end
 
 %hook FBMInboxViewController
@@ -194,6 +225,20 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 %new
 - (BOOL)mb_shouldShowPublisherBar {
     return _shouldShowPublisherBar;
+}
+
+%end
+
+%hook MessagesViewController
+
+- (void)messageCell:(id)arg1 didSelectURL:(NSURL *)url {
+    if (_UIHiddenForMessageBox && [url isKindOfClass:[NSURL class]] && url != nil) {
+        FBApplicationController *applicationController = [%c(FBApplicationController) mb_sharedInstance];
+        [applicationController mb_openURL:url];
+    }
+    else {
+        %orig;
+    }
 }
 
 %end
