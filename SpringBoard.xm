@@ -11,6 +11,8 @@
 
 #define USE_SPRINGS YES
 
+#define CHAT_HEAD_TRANSITION_DELAY 0.6
+
 /**
  * SpringBoard Hooks
  *
@@ -18,6 +20,8 @@
 
 static MBChatHeadWindow *_chatHeadWindow;
 static BKSProcessAssertion *_keepAlive;
+
+static BOOL _chatHeadPopoverCanBeDismissed;
 
 %group SpringBoardHooks
 
@@ -44,8 +48,9 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
 - (BOOL)clickedMenuButton {
     //To keep in app as stock as possible, don't intercept the home button when the app is active
     //So only take action if FB is active but in the background
-    if ([_keepAlive valid]) {
+    if ([_keepAlive valid] && _chatHeadPopoverCanBeDismissed) {
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
+        return YES;
     }
 
     return %orig;
@@ -71,10 +76,11 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
                                                  name:@"SBLockScreenDimmedNotification"
                                                object:nil];
 
-    CPDistributedMessagingCenter *messagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.messageboxcenter"];
-    rocketbootstrap_distributedmessagingcenter_apply(messagingCenter);
-    [messagingCenter runServerOnCurrentThread];
-    [messagingCenter registerForMessageName:@"messageboxOpenURL" target:self selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
+    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
+    [sbMessagingCenter runServerOnCurrentThread];
+    [sbMessagingCenter registerForMessageName:@"messageboxOpenURL" target:self selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
+    [sbMessagingCenter registerForMessageName:@"messageboxUpdateChatHeadsState" target:self selector:@selector(mb_updateChatHeadsState:withUserInfo:)];
 
     return controller;
 }
@@ -90,6 +96,17 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
             if (url != nil) {
                 [[UIApplication sharedApplication] openURL:url];
             }
+        }
+    }
+}
+
+%new
+- (void)mb_updateChatHeadsState:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
+    if ([message isEqualToString:@"messageboxUpdateChatHeadsState"]) {
+        NSNumber *chatHeadsPopoverOpened = userInfo[@"opened"];
+
+        if (chatHeadsPopoverOpened != nil) {
+            _chatHeadPopoverCanBeDismissed = chatHeadsPopoverOpened.boolValue;
         }
     }
 }
@@ -148,11 +165,11 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     CATransform3D scaleTransform = CATransform3DMakeScale(1.4, 1.0, 1.0);
     _chatHeadWindow.layer.transform = scaleTransform;
 
-    [_chatHeadWindow performSelector:@selector(show) withObject:nil afterDelay:0.4];
+    [_chatHeadWindow performSelector:@selector(show) withObject:nil afterDelay:CHAT_HEAD_TRANSITION_DELAY];
 
     if (USE_SPRINGS) {
         [UIView animateWithDuration:0.6
-                              delay:0.4
+                              delay:CHAT_HEAD_TRANSITION_DELAY
              usingSpringWithDamping:0.8
               initialSpringVelocity:0.6
                             options:0
@@ -163,7 +180,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
     else {
         [UIView animateWithDuration:0.4
-                      delay:0.5
+                      delay:CHAT_HEAD_TRANSITION_DELAY
                     options:0
                  animations:^{
                         _chatHeadWindow.layer.transform = CATransform3DIdentity;

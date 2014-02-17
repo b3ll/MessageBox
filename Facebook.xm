@@ -28,6 +28,7 @@ static BOOL _UIHiddenForMessageBox;
 static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
     [controller.messengerModule.chatHeadViewController resignChatHeadViews];
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 }
 
 static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
@@ -40,6 +41,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     _ignoreBackgroundedNotifications = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil userInfo:nil];
 }
+
 
 // Keyboards also need to be shown when the app is backgrounded
 %hook UITextEffectsWindow
@@ -175,12 +177,72 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
 %new
 - (void)mb_openURL:(NSURL *)url {
-    CPDistributedMessagingCenter *messagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.messageboxcenter"];
-    rocketbootstrap_distributedmessagingcenter_apply(messagingCenter);
-    [messagingCenter sendMessageName:@"messageboxOpenURL" userInfo:@{ @"url" : [url absoluteString] }];
+    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
+
+    [sbMessagingCenter sendMessageName:@"messageboxOpenURL" userInfo:@{ @"url" : [url absoluteString] }];
 
     FBChatHeadViewController *chatHeadController = self.messengerModule.chatHeadViewController;
     [chatHeadController resignChatHeadViews];
+}
+
+%new
+- (void)mb_forceRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation {
+    DebugLog(@"NEXT ORIENTATION: %d", orientation);
+
+    // Popover blows up when rotated
+    FBChatHeadViewController *chatHeadController = self.messengerModule.chatHeadViewController;
+    [chatHeadController resignChatHeadViews];
+
+    [[UIApplication sharedApplication] setStatusBarOrientation:orientation];
+
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        [window _setRotatableViewOrientation:orientation
+                                    duration:0.0
+                                       force:YES];
+    }
+
+    /*
+     Some crazy UIKeyboard hacks because for some reason UIKeyboard has a seizure when a suspended app tries to rotate...
+
+     if orientation == 1
+     revert to identity matrix
+     if orientation == 2
+     flip keyboard PI
+     if orientation == 3
+     flip keyboard PI/2 RAD
+     set frame & bounds to screen size
+     if orientation == 4
+     flip keyboard -PI/2 RAD
+     set frame & bounds to screen size
+     */
+
+    UITextEffectsWindow *keyboardWindow = [UITextEffectsWindow sharedTextEffectsWindow];
+
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait: {
+            keyboardWindow.transform = CGAffineTransformIdentity;
+            break;
+        }
+        case UIInterfaceOrientationPortraitUpsideDown: {
+            keyboardWindow.transform = CGAffineTransformMakeRotation(M_PI);
+            break;
+        }
+        case UIInterfaceOrientationLandscapeLeft: {
+            keyboardWindow.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+            keyboardWindow.bounds = [[UIScreen mainScreen] bounds];
+            keyboardWindow.frame = keyboardWindow.bounds;
+            break;
+        }
+        case UIInterfaceOrientationLandscapeRight: {
+            keyboardWindow.transform = CGAffineTransformMakeRotation(M_PI / 2);
+            keyboardWindow.bounds = [[UIScreen mainScreen] bounds];
+            keyboardWindow.frame = keyboardWindow.bounds;
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 %end
@@ -204,6 +266,18 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 %new
 - (BOOL)mb_shouldShowPublisherBar {
     return _shouldShowPublisherBar;
+}
+
+%end
+
+%hook FBChatHeadSurfaceView
+
+- (void)setCurrentLayout:(FBChatHeadLayout *)currentLayout {
+    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
+    [sbMessagingCenter sendMessageName:@"messageboxUpdateChatHeadsState" userInfo:@{ @"opened" : @(currentLayout == self.openedLayout) }];
+
+    %orig;
 }
 
 %end

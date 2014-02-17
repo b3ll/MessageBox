@@ -15,10 +15,12 @@
 
 @interface UIWindow (hax)
 - (void)setKeepContextInBackground:(BOOL)keepContext;
+- (void)_setRotatableViewOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration force:(BOOL)force;
 @end
 
 @interface UITextEffectsWindow : UIWindow
 + (UITextEffectsWindow *)preferredTextEffectsWindow;
++ (UITextEffectsWindow *)sharedTextEffectsWindow;
 @end
 
 @interface CPDistributedMessagingCenter : NSObject
@@ -26,6 +28,7 @@
 - (void)runServerOnCurrentThread;
 - (void)registerForMessageName:(NSString *)name target:(id)target selector:(SEL)selector;
 - (void)sendMessageName:(NSString *)message userInfo:(NSDictionary *)userInfo;
+- (NSDictionary *)sendMessageAndReceiveReplyName:(NSString *)reply userInfo:(NSDictionary *)dictionary;
 @end
 
 @interface SBWindowContextHostWrapperView : UIView
@@ -108,8 +111,16 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
     ProcessAssertionFlagWantsForegroundResourcePriority  = 1 << 3
 };
 
+@interface FBChatHeadLayout : NSObject
+@end
+
 @interface FBChatHeadSurfaceView : UIView
 @property (nonatomic) BOOL hasComposer;
+@property(nonatomic) FBChatHeadLayout *currentLayout;
+
+@property(nonatomic, strong) FBChatHeadLayout *defaultLayout;
+@property(nonatomic, strong) FBChatHeadLayout *closedLayout;
+@property(nonatomic, strong) FBChatHeadLayout *openedLayout;
 
 - (void)sortChatHeads;
 @end
