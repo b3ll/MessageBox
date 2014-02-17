@@ -21,6 +21,11 @@
 @interface UITextEffectsWindow : UIWindow
 + (UITextEffectsWindow *)preferredTextEffectsWindow;
 + (UITextEffectsWindow *)sharedTextEffectsWindow;
+
+- (void)setKeepContextInBackground:(BOOL)keepContext;
+@end
+
+@interface UICalloutBar : UIView
 @end
 
 @interface CPDistributedMessagingCenter : NSObject

@@ -46,6 +46,13 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 // Keyboards also need to be shown when the app is backgrounded
 %hook UITextEffectsWindow
 
+//TODO: Pretty sure this isn't necessary, figure out later
+- (id)init {
+    UITextEffectsWindow *window = %orig;
+    [window setKeepContextInBackground:YES];
+    return window;
+}
+
 - (void)setKeepContextInBackground:(BOOL)keepContext {
     %orig(YES);
 }
@@ -63,6 +70,17 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     %orig(KEYBOARD_WINDOW_LEVEL);
 }
 
+%end
+
+// Since UIMenuItems hate being displayed for some odd reason when an app is in a hosted view, force them to always appear... #yolo
+%hook UICalloutBar
+- (void)expandAfterAlertOrBecomeActive:(id)arg1 {
+    [self setValue:@(YES) forKey:@"m_shouldAppear"];
+}
+
+- (void)flattenForAlertOrResignActive:(id)arg1 {
+    [self setValue:@(YES) forKey:@"m_shouldAppear"];
+}
 %end
 
 // Need to force the app to believe it's still active... no notifications for you! >:D
