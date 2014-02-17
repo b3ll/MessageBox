@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface MBChatHeadWindow : UIWindow {
 
 }
 
 + (instancetype)sharedInstance;
+
 - (void)hide;
+- (void)hideAnimated;
 - (void)show;
+- (void)showAnimated;
 
 @end

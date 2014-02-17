@@ -9,10 +9,6 @@
 #import "messagebox.h"
 #import "MBChatHeadWindow.h"
 
-#define USE_SPRINGS YES
-
-#define CHAT_HEAD_TRANSITION_DELAY 0.6
-
 /**
  * SpringBoard Hooks
  *
@@ -160,34 +156,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
 
     [_chatHeadWindow addSubview:facebookHostView];
 
-    [_chatHeadWindow hide];
-
-    CATransform3D scaleTransform = CATransform3DMakeScale(1.4, 1.0, 1.0);
-    _chatHeadWindow.layer.transform = scaleTransform;
-
-    [_chatHeadWindow performSelector:@selector(show) withObject:nil afterDelay:CHAT_HEAD_TRANSITION_DELAY];
-
-    if (USE_SPRINGS) {
-        [UIView animateWithDuration:0.6
-                              delay:CHAT_HEAD_TRANSITION_DELAY
-             usingSpringWithDamping:0.8
-              initialSpringVelocity:0.6
-                            options:0
-                         animations:^{
-                                _chatHeadWindow.layer.transform = CATransform3DIdentity;
-                            }
-                         completion:nil];
-    }
-    else {
-        [UIView animateWithDuration:0.4
-                      delay:CHAT_HEAD_TRANSITION_DELAY
-                    options:0
-                 animations:^{
-                        _chatHeadWindow.layer.transform = CATransform3DIdentity;
-                    }
-                 completion:nil];
-    }
-
+    [_chatHeadWindow showAnimated];
 }
 
 %new
@@ -211,6 +180,21 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
 
     [_chatHeadWindow hide];
+}
+
+%end
+
+%hook SBAppSliderController
+
+- (void)switcherWillBeDismissed:(BOOL)arg1 {
+    [[MBChatHeadWindow sharedInstance] showAnimated];
+    %orig;
+}
+
+- (void)switcherWasPresented:(BOOL)arg1 {
+    notify_post("ca.adambell.messagebox.fbResignChatHeads");
+    [[MBChatHeadWindow sharedInstance] hideAnimated];
+    %orig;
 }
 
 %end
