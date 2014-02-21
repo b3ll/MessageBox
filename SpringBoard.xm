@@ -156,7 +156,9 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
 
     [_chatHeadWindow addSubview:facebookHostView];
 
-    [_chatHeadWindow showAnimated];
+    // TODO: fix flicker when switching from Paper -> Hosted View
+    [NSObject cancelPreviousPerformRequestsWithTarget:_chatHeadWindow selector:@selector(showAnimated) object:nil];
+    [_chatHeadWindow performSelector:@selector(showAnimated) withObject:nil afterDelay:0.6];
 }
 
 %new
