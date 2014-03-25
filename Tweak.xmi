@@ -26,6 +26,11 @@
 #define PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.pushNotificationReceived"
 #define GENERAL_PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.generalPushNotificationReceived"
 
+#define KEY_ENABLED @"messageBoxEnabled"
+#define KEY_FORCE_ENABLED @"messageBoxForceEnabled"
+
+#define MAX_SUPPORTED_VERSION @"1.0.2"
+
 extern "C" int xpc_connection_get_pid(id connection);
 
 #include "Facebook.xm"
@@ -39,6 +44,8 @@ extern "C" int xpc_connection_get_pid(id connection);
 #define XPCObjects "/System/Library/PrivateFrameworks/XPCObjects.framework/XPCObjects"
 
 %group backboarddHooks
+
+static NSDictionary *_prefs;
 
 static int (*orig_XPConnectionHasEntitlement)(id connection, NSString *entitlement);
 
@@ -54,8 +61,36 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
 
 %end
 
+static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
+}
+
 %ctor {
+    _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
+    if (![_prefs[KEY_ENABLED] boolValue]) {
+        return;
+    }
+
+    CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
+    CFNotificationCenterAddObserver(darwin, NULL, messageBoxPrefsChanged, CFSTR("ca.adambell.messagebox.preferences-changed"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+
     if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
+        NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+
+        if (([versionString compare:MAX_SUPPORTED_VERSION options:NSNumericSearch] == NSOrderedDescending)) {
+            if (![_prefs[KEY_FORCE_ENABLED] boolValue]) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MessageBox"
+                                                                    message:@"Looks like you're using an unsupported version, MessageBox has been disabled :(\n\nYou can attempt to re-enable it using Force Enable in Settings or wait for an updated version."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView performSelector:@selector(show)
+                                withObject:nil
+                                afterDelay:5.0];
+                return;
+            }
+        }
+
         %init(FacebookHooks);
 
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();

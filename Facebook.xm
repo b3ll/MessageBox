@@ -39,6 +39,7 @@ static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStri
 
 static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _ignoreBackgroundedNotifications = NO;
+    [[[UIApplication sharedApplication] delegate] applicationDidEnterBackground:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil userInfo:nil];
 }
 
@@ -189,6 +190,10 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     }
 
     [UIApplication sharedApplication].keyWindow.frame = chatHeadWindowFrame;
+
+    for (UIView *subview in [UIApplication sharedApplication].keyWindow.subviews) {
+        [subview setNeedsLayout];
+    }
 
     _shouldShowPublisherBar = hidden;
 }

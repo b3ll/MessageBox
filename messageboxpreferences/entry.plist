@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = messageboxpreferences;
+	cell = PSLinkCell;
+	detail = messageboxpreferencesListController;
+	icon = MessageBox.png;
+	isController = 1;
+	label = MessageBox;
+    };
+}
