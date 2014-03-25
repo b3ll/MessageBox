@@ -1,6 +1,9 @@
 #import <Preferences/Preferences.h>
 #import <UIKit/UIKit.h>
 
+#define KEY_ENABLED @"messageBoxEnabled"
+#define KEY_FORCE_ENABLED @"messageBoxForceEnabled"
+
 @interface messageboxpreferencesListController: PSListController <UIAlertViewDelegate> {
 }
 @end
@@ -27,10 +30,13 @@ __weak messageboxpreferencesListController *_weakSelf;
 static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     NSDictionary *prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
 
-    BOOL enabled = [prefs[@"messageBoxEnabled"] boolValue];
-    BOOL previouslyEnabled = [_prefs[@"messageBoxEnabled"] boolValue];
+    BOOL enabled = [prefs[KEY_ENABLED] boolValue];
+    BOOL previouslyEnabled = [_prefs[KEY_ENABLED] boolValue];
 
-    if (enabled != previouslyEnabled) {
+    BOOL forceEnabled = [prefs[KEY_FORCE_ENABLED] boolValue];
+    BOOL previouslyForceEnabled = [prefs[KEY_FORCE_ENABLED] boolValue];
+
+    if ((enabled != previouslyEnabled) || (forceEnabled != previouslyForceEnabled)) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MessageBox"
                                                             message:@"Changing this option requires you to restart SpringBoard."
                                                            delegate:_weakSelf
