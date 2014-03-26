@@ -50,7 +50,7 @@ You can enable it manually using this.</string>
             <key>key</key>
             <string>messageBoxForceEnabled</string>
             <key>label</key>
-            <string>Force Enable</string>
+            <string>Ignore Version Check</string>
         </dict>
         <dict>
             <key>cell</key>

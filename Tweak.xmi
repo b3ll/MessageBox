@@ -80,7 +80,7 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
         if (([versionString compare:MAX_SUPPORTED_VERSION options:NSNumericSearch] == NSOrderedDescending)) {
             if (![_prefs[KEY_FORCE_ENABLED] boolValue]) {
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MessageBox"
-                                                                    message:@"Looks like you're using an unsupported version, MessageBox has been disabled :(\n\nYou can attempt to re-enable it using Force Enable in Settings or wait for an updated version."
+                                                                    message:@"Looks like you're using an unsupported version, MessageBox has been disabled :(\n\nYou can attempt to re-enable it using \"Ignore Version Check\" in Settings or wait for an updated version."
                                                                    delegate:nil
                                                           cancelButtonTitle:@"OK"
                                                           otherButtonTitles:nil];

@@ -62,10 +62,6 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
 	return _specifiers;
 }
 
-- (void)toggleEnabled:(id)sender {
-    NSLog(@"THIS IS A MESSAGE HEY%@", sender);
-}
-
 @end
 
 // vim:ft=objc

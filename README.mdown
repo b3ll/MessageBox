@@ -1,23 +1,30 @@
-# Message Box
+# MessageBox
 ## Breaking Facebook's Chat Heads out of the iOS Sandbox
 
 ### Intro
-MessageBox is a jailbreak extension for iOS that allows users to use Facebook Messenger's Chat Heads system-wide in iOS. Currently this only works in conjunction with Paper and iOS 7.
+MessageBox is a jailbreak extension for iOS that allows users to use Facebook Messenger's Chat Heads system-wide in iOS. Currently this only works in conjunction with [Paper](https://facebook.com/paper/) and iOS 7.
+
+[The Verge](http://www.theverge.com/2013/4/17/4235816/chat-heads-for-iphone-jailbreak-tweak) approves! :P
 
 For more technical info I did a [blog post](http://blog.adambell.ca/post/73338421921/breaking-chat-heads-out-of-the-ios-sandbox) as well!
+
+The [original hack](https://github.com/b3ll/MessageBox-olde) has been deprecated and will no longer be supported, however back-porting a lot of this to iOS 6 shouldn't be too difficult (for those of you still on iOS 6).
+
+### How do I MessageBox?
+Open Paper, wait for everything to appear, press the Home button. Magic! :D
+
+### Price?
+Totally free! If you'd like to support my continuation of this project (and others!), feel free to [donate](http://www.adambell.ca/donate)! It'd be much appreciated :D
 
 ### How do I get?
 It's on Cydia under the BigBoss repo!
 
 ### How do I compile?
-[@DHowett](https://www.twitter.com/DHowett) was very sad when he realized I didn't use [theos](https://www.github.com/DHowett/theos) for my initial version of Message Box, and seeing as how it's now the suggested route for [Cydia Substrate](http://cydiasubstrate.com/) so I've switched to that (though, I'm using [@rpetrich's fork](https://www.github.com/rpetrich/theos) since it's nicer for working with universal builds).
+[@DHowett](https://www.twitter.com/DHowett) was very sad when he realized I didn't use [theos](https://www.github.com/DHowett/theos) for my initial version of MessageBox, and seeing as how it's now the suggested route for [Cydia Substrate](http://cydiasubstrate.com/) so I've switched to that (though, I'm using [@rpetrich's fork](https://www.github.com/rpetrich/theos) since it's nicer for working with universal builds).
 
-Once you've got that setup, (nice writeup [here](http://iphonedevwiki.net/index.php/Theos/Getting_Started)) change the makefile to your liking. After that simply run:
+Once you've got that setup, (nice writeup [here](http://iphonedevwiki.net/index.php/Theos/Getting_Started)) change the Makefile to your liking. After that simply run:
 
     THEOS_DEVICE_IP=<your ip here> THEOS_DEVICE_PORT=<your SSH port here> make package install
-
-### Price?
-Totally free! If you'd like to support my continuation of this project (and others!), feel free to [donate](http://www.adambell.ca/donate)! It'd be much appreciated :D
 
 ### License?
 Pretty much the BSD license, just don't repackage it and call it your own please!
@@ -31,3 +38,4 @@ Otherwise, feel free to follow me on twitter: [@b3ll](https:///www.twitter.com/b
 
 ### Special Thanks
 me :P
+Facebook, for being awesome.
