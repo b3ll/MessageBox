@@ -23,17 +23,17 @@ static BOOL _UIHiddenForMessageBox;
  * Facebook Hooks
  *
  */
-%group FacebookHooks
+GROUP(FacebookHooks)
 
 static void fbResignChatHeads(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    FBApplicationController *controller = [GET_CLASS(FBApplicationController) mb_sharedInstance];
     [controller.messengerModule.chatHeadViewController resignChatHeadViews];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
 }
 
 static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _ignoreBackgroundedNotifications = YES;
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    FBApplicationController *controller = [GET_CLASS(FBApplicationController) mb_sharedInstance];
     [controller.messengerModule.moduleSession enteredForeground];
 }
 
@@ -45,17 +45,17 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
 
 // Keyboards also need to be shown when the app is backgrounded
-%hook UITextEffectsWindow
+HOOK(UITextEffectsWindow)
 
 //TODO: Pretty sure this isn't necessary, figure out later
 - (id)init {
-    UITextEffectsWindow *window = %orig;
+    UITextEffectsWindow *window = ORIG();
     [window setKeepContextInBackground:YES];
     return window;
 }
 
 - (void)setKeepContextInBackground:(BOOL)keepContext {
-    %orig(YES);
+    ORIG(YES);
 }
 
 - (BOOL)keepContextInBackground {
@@ -68,13 +68,13 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 }
 
 - (void)setWindowLevel:(CGFloat)windowLevel {
-    %orig(KEYBOARD_WINDOW_LEVEL);
+    ORIG(KEYBOARD_WINDOW_LEVEL);
 }
 
-%end
+END()
 
 // Since UIMenuItems hate being displayed for some odd reason when an app is in a hosted view, force them to always appear... #yolo
-%hook UICalloutBar
+HOOK(UICalloutBar)
 - (void)expandAfterAlertOrBecomeActive:(id)arg1 {
     [self setValue:@(YES) forKey:@"m_shouldAppear"];
 }
@@ -82,10 +82,10 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 - (void)flattenForAlertOrResignActive:(id)arg1 {
     [self setValue:@(YES) forKey:@"m_shouldAppear"];
 }
-%end
+END()
 
 // Need to force the app to believe it's still active... no notifications for you! >:D
-%hook NSNotificationCenter
+HOOK(NSNotificationCenter)
 
 - (void)postNotificationName:(NSString *)notificationName object:(id)notificationSender userInfo:(NSDictionary *)userInfo {
     NSString *notification = [notificationName lowercaseString];
@@ -94,7 +94,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
         [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
-        FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+        FBApplicationController *controller = [GET_CLASS(FBApplicationController) mb_sharedInstance];
         [controller mb_setUIHiddenForMessageBox:YES];
 
         return;
@@ -102,26 +102,26 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
 
     DebugLog(@"Notification Posted: %@ object: %@ userInfo: %@", notificationName, notificationSender, userInfo);
 
-    %orig;
+    ORIG();
 }
 
-%end
+END()
 
-%hook UIApplication
+HOOK(UIApplication)
 
 - (UIApplicationState)applicationState {
     if (_ignoreBackgroundedNotifications)
         return UIApplicationStateActive;
     else
-        return %orig;
+        return ORIG();
 }
 
-%end
+END()
 
-%hook AppDelegate
+HOOK(AppDelegate)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    BOOL didFinishLaunching = %orig;
+    BOOL didFinishLaunching = ORIG();
 
     for (UIWindow *window in application.windows) {
         [window setKeepContextInBackground:YES];
@@ -134,27 +134,27 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     notify_post("ca.adambell.messagebox.fbLaunching");
     DebugLog(@"FACEBOOK OPENING RIGHT NOW");
 
-    FBApplicationController *controller = [%c(FBApplicationController) mb_sharedInstance];
+    FBApplicationController *controller = [GET_CLASS(FBApplicationController) mb_sharedInstance];
     [controller mb_setUIHiddenForMessageBox:NO];
 
-    %orig;
+    ORIG();
 }
 
-%end
+END()
 
-%hook FBApplicationController
+HOOK(FBApplicationController)
 
 - (id)initWithSession:(id)session {
-    _applicationController = %orig;
+    _applicationController = ORIG();
     return _applicationController;
 }
 
-%new
+NEW()
 + (id)mb_sharedInstance {
     return _applicationController;
 }
 
-%new
+NEW()
 - (void)mb_setUIHiddenForMessageBox:(BOOL)hidden {
     _UIHiddenForMessageBox = hidden;
 
@@ -169,7 +169,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     FBStackView *stackView = (FBStackView *)chatHeadController.view;
     UIView *chatHeadContainerView = stackView;
 
-    while (![stackView isKindOfClass:%c(FBStackView)]) {
+    while (![stackView isKindOfClass:GET_CLASS(FBStackView)]) {
         if (stackView.superview == nil)
             break;
 
@@ -178,7 +178,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     }
 
     for (UIView *view in stackView.subviews) {
-        if (view != chatHeadContainerView && ![view isKindOfClass:%c(FBDimmingView)])
+        if (view != chatHeadContainerView && ![view isKindOfClass:GET_CLASS(FBDimmingView)])
             view.hidden = hidden;
     }
 
@@ -198,9 +198,9 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     _shouldShowPublisherBar = hidden;
 }
 
-%new
+NEW()
 - (void)mb_openURL:(NSURL *)url {
-    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    CPDistributedMessagingCenter *sbMessagingCenter = [GET_CLASS(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
     rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
 
     [sbMessagingCenter sendMessageName:@"messageboxOpenURL" userInfo:@{ @"url" : [url absoluteString] }];
@@ -209,7 +209,7 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     [chatHeadController resignChatHeadViews];
 }
 
-%new
+NEW()
 - (void)mb_forceRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation {
     DebugLog(@"NEXT ORIENTATION: %d", orientation);
 
@@ -268,55 +268,55 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     }
 }
 
-%end
+END()
 
-%hook FBMInboxViewController
+HOOK(FBMInboxViewController)
 
 - (void)viewWillAppear:(BOOL)animated {
-    %orig;
+    ORIG();
 
     self.inboxView.showPublisherBar = 0;
 }
 
-%end
+END()
 
-%hook FBMInboxView
+HOOK(FBMInboxView)
 
 - (void)setShowPublisherBar:(BOOL)showPublisherBar {
-    %orig([self mb_shouldShowPublisherBar]);
+    ORIG([self mb_shouldShowPublisherBar]);
 }
 
-%new
+NEW()
 - (BOOL)mb_shouldShowPublisherBar {
     return _shouldShowPublisherBar;
 }
 
-%end
+END()
 
-%hook FBChatHeadSurfaceView
+HOOK(FBChatHeadSurfaceView)
 
 - (void)setCurrentLayout:(FBChatHeadLayout *)currentLayout {
-    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    CPDistributedMessagingCenter *sbMessagingCenter = [GET_CLASS(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
     rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
     [sbMessagingCenter sendMessageName:@"messageboxUpdateChatHeadsState" userInfo:@{ @"opened" : @(currentLayout == self.openedLayout) }];
 
-    %orig;
+    ORIG();
 }
 
-%end
+END()
 
-%hook MessagesViewController
+HOOK(MessagesViewController)
 
 - (void)messageCell:(id)arg1 didSelectURL:(NSURL *)url {
     if (_UIHiddenForMessageBox && [url isKindOfClass:[NSURL class]] && url != nil) {
-        FBApplicationController *applicationController = [%c(FBApplicationController) mb_sharedInstance];
+        FBApplicationController *applicationController = [GET_CLASS(FBApplicationController) mb_sharedInstance];
         [applicationController mb_openURL:url];
     }
     else {
-        %orig;
+        ORIG();
     }
 }
 
-%end
+END()
 
-%end
+END_GROUP()
