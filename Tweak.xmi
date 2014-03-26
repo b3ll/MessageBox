@@ -6,16 +6,6 @@
 //  Copyright (c) 2014 Adam Bell. All rights reserved.
 //
 
-%config(generator=MobileSubstrate);
-
-#include <mach/mach.h>
-#include <libkern/OSCacheControl.h>
-#include <stdbool.h>
-#include <dlfcn.h>
-#include <notify.h>
-
-#import <sys/sysctl.h>
-
 #import "messagebox.h"
 
 #define ROTATION_PORTRAIT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotatePortrait"
@@ -42,6 +32,8 @@ extern "C" int xpc_connection_get_pid(id connection);
  */
 
 #define XPCObjects "/System/Library/PrivateFrameworks/XPCObjects.framework/XPCObjects"
+
+CONFIG(generator=MobileSubstrate);
 
 GROUP(backboarddHooks)
 

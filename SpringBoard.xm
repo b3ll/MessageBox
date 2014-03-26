@@ -37,7 +37,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindow];
 }
 
-HOOK(SBUIController)
+HOOK_AND_DECLARE(SBUIController, NSObject)
 
 //Stack up the chat heads when the home button is pressed
 
@@ -186,7 +186,7 @@ NEW()
 
 END()
 
-HOOK(SBAppSliderController)
+HOOK_AND_DECLARE(SBAppSliderController, NSObject)
 
 - (void)switcherWillBeDismissed:(BOOL)arg1 {
     [[MBChatHeadWindow sharedInstance] showAnimated];

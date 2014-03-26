@@ -43,7 +43,6 @@ static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, 
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil userInfo:nil];
 }
 
-
 // Keyboards also need to be shown when the app is backgrounded
 HOOK(UITextEffectsWindow)
 
@@ -113,12 +112,12 @@ HOOK(UIApplication)
     if (_ignoreBackgroundedNotifications)
         return UIApplicationStateActive;
     else
-        return ORIG();
+        return (UIApplicationState)ORIG();
 }
 
 END()
 
-HOOK(AppDelegate)
+HOOK_AND_DECLARE(AppDelegate, NSObject)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     BOOL didFinishLaunching = ORIG();
@@ -211,7 +210,7 @@ NEW()
 
 NEW()
 - (void)mb_forceRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation {
-    DebugLog(@"NEXT ORIENTATION: %d", orientation);
+    DebugLog(@"NEXT ORIENTATION: %d", (int)orientation);
 
     // Popover blows up when rotated
     FBChatHeadViewController *chatHeadController = self.messengerModule.chatHeadViewController;
@@ -305,7 +304,7 @@ HOOK(FBChatHeadSurfaceView)
 
 END()
 
-HOOK(MessagesViewController)
+HOOK_AND_DECLARE(MessagesViewController, UIViewController)
 
 - (void)messageCell:(id)arg1 didSelectURL:(NSURL *)url {
     if (_UIHiddenForMessageBox && [url isKindOfClass:[NSURL class]] && url != nil) {

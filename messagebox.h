@@ -1,9 +1,26 @@
+//
+//  messagebox.h
+//  MessageBox
+//
+//  Created by Adam Bell on 2014-02-04.
+//  Copyright (c) 2014 Adam Bell. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <xctheos.h>
+#import <notify.h>
 
+#include <mach/mach.h>
+#include <libkern/OSCacheControl.h>
+#include <stdbool.h>
+#include <dlfcn.h>
+#include <sys/sysctl.h>
+
+#import "substrate.h"
 #import "rocketbootstrap.h"
+
+#import <xctheos.h>
 
 #ifdef DEBUG
     #define DebugLog(str, ...) NSLog(str, ##__VA_ARGS__)
@@ -11,11 +28,11 @@
     #define DebugLog(str, ...)
 #endif
 
-@interface UIApplication (hax)
+@interface UIApplication (openURL)
 - (void)applicationOpenURL:(NSURL *)url;
 @end
 
-@interface UIWindow (hax)
+@interface UIWindow (backgroundContext)
 - (void)setKeepContextInBackground:(BOOL)keepContext;
 - (void)_setRotatableViewOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration force:(BOOL)force;
 @end
@@ -182,7 +199,7 @@ inline int PIDForProcessNamed(NSString *passedInProcessName) {
     size_t miblen = 4;
 
     size_t size;
-    int st = sysctl(mib, miblen, NULL, &size, NULL, 0);
+    int st = sysctl(mib, (u_int)miblen, NULL, &size, NULL, 0);
 
     struct kinfo_proc * process = NULL;
     struct kinfo_proc * newprocess = NULL;
@@ -200,14 +217,14 @@ inline int PIDForProcessNamed(NSString *passedInProcessName) {
         }
 
         process = newprocess;
-        st = sysctl(mib, miblen, process, &size, NULL, 0);
+        st = sysctl(mib, (u_int)miblen, process, &size, NULL, 0);
 
     } while (st == -1 && errno == ENOMEM);
 
     if (st == 0) {
 
         if (size % sizeof(struct kinfo_proc) == 0) {
-            int nprocess = size / sizeof(struct kinfo_proc);
+            int nprocess = (int)(size / sizeof(struct kinfo_proc));
 
             if (nprocess) {
                 for (int i = nprocess - 1; i >= 0; i--) {
