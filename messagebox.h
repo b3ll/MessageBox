@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import <xctheos.h>
+
 #import "rocketbootstrap.h"
 
 #ifdef DEBUG

@@ -19,10 +19,10 @@ static BKSProcessAssertion *_keepAlive;
 
 static BOOL _chatHeadPopoverCanBeDismissed;
 
-%group SpringBoardHooks
+GROUP(SpringBoardHooks)
 
 static void fbDidTapChatHead(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    SBIconController *iconController = [%c(SBIconController) sharedInstance];
+    SBIconController *iconController = [GET_CLASS(SBIconController) sharedInstance];
 
     //If icons are wiggling and a chat head is tapped, stop the wiggling
     if (iconController.isEditing)
@@ -30,14 +30,14 @@ static void fbDidTapChatHead(CFNotificationCenterRef center, void *observer, CFS
 }
 
 static void fbLaunching(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    [[%c(SBUIController) sharedInstance] mb_removeChatHeadWindow];
+    [[GET_CLASS(SBUIController) sharedInstance] mb_removeChatHeadWindow];
 }
 
 static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    [[%c(SBUIController) sharedInstance] mb_addChatHeadWindow];
+    [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindow];
 }
 
-%hook SBUIController
+HOOK(SBUIController)
 
 //Stack up the chat heads when the home button is pressed
 
@@ -49,7 +49,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         return YES;
     }
 
-    return %orig;
+    return ORIG();
 }
 
 - (BOOL)handleMenuDoubleTap {
@@ -57,11 +57,11 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
     }
 
-    return %orig;
+    return ORIG();
 }
 
 - (id)init {
-    SBUIController *controller = %orig;
+    SBUIController *controller = ORIG();
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mb_screenOn:)
@@ -72,7 +72,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
                                                  name:@"SBLockScreenDimmedNotification"
                                                object:nil];
 
-    CPDistributedMessagingCenter *sbMessagingCenter = [%c(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
+    CPDistributedMessagingCenter *sbMessagingCenter = [GET_CLASS(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
     rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
     [sbMessagingCenter runServerOnCurrentThread];
     [sbMessagingCenter registerForMessageName:@"messageboxOpenURL" target:self selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
@@ -81,7 +81,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     return controller;
 }
 
-%new
+NEW()
 - (void)mb_handleMessageBoxMessage:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
     if ([message isEqualToString:@"messageboxOpenURL"]) {
         NSString *urlString = userInfo[@"url"];
@@ -96,7 +96,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
 }
 
-%new
+NEW()
 - (void)mb_updateChatHeadsState:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
     if ([message isEqualToString:@"messageboxUpdateChatHeadsState"]) {
         NSNumber *chatHeadsPopoverOpened = userInfo[@"opened"];
@@ -107,17 +107,17 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
 }
 
-%new
+NEW()
 - (void)mb_screenOn:(NSNotification *)notification {
     notify_post("ca.adambell.messagebox.fbForceActive");
 }
 
-%new
+NEW()
 - (void)mb_screenOff:(NSNotification *)notification {
     notify_post("ca.adambell.messagebox.fbForceBackground");
 }
 
-%new
+NEW()
 - (void)mb_addChatHeadWindow {
     int facebookPID = PIDForProcessNamed(@"Paper");
     if (facebookPID == 0)
@@ -126,7 +126,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     if (_keepAlive != nil)
         [_keepAlive invalidate];
 
-    _keepAlive = [[%c(BKSProcessAssertion) alloc] initWithPID:facebookPID
+    _keepAlive = [[GET_CLASS(BKSProcessAssertion) alloc] initWithPID:facebookPID
                                                    flags:(ProcessAssertionFlagPreventSuspend |
                                                           ProcessAssertionFlagAllowIdleSleep |
                                                           ProcessAssertionFlagPreventThrottleDownCPU |
@@ -138,7 +138,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
                      DebugLog(@"FACEBOOK PID: %d kept alive: %@", facebookPID, [_keepAlive valid] > 0 ? @"TRUE" : @"FALSE");
                  }];
 
-    SBApplication *facebookApplication = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
+    SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
 
     SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
 
@@ -161,7 +161,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     [_chatHeadWindow performSelector:@selector(showAnimated) withObject:nil afterDelay:0.6];
 }
 
-%new
+NEW()
 - (void)mb_removeChatHeadWindow {
     if (_keepAlive != nil) {
         // Kill the BKSProcessAssertion because it isn't needed anymore
@@ -170,7 +170,7 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         [_keepAlive invalidate];
         _keepAlive = nil;
 
-        SBApplication *facebookApplication = [[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
+        SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
 
         SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
 
@@ -184,27 +184,27 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     [_chatHeadWindow hide];
 }
 
-%end
+END()
 
-%hook SBAppSliderController
+HOOK(SBAppSliderController)
 
 - (void)switcherWillBeDismissed:(BOOL)arg1 {
     [[MBChatHeadWindow sharedInstance] showAnimated];
-    %orig;
+    ORIG();
 }
 
 - (void)switcherWasPresented:(BOOL)arg1 {
     notify_post("ca.adambell.messagebox.fbResignChatHeads");
     [[MBChatHeadWindow sharedInstance] hideAnimated];
-    %orig;
+    ORIG();
 }
 
-%end
+END()
 
-%hook UIWindow
+HOOK(UIWindow)
 
 - (void)makeKeyAndVisible {
-    %orig;
+    ORIG();
 
     if (self != _chatHeadWindow) {
         if (_chatHeadWindow == nil) {
@@ -218,6 +218,6 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
     }
 }
 
-%end
+END()
 
-%end
+END_GROUP()

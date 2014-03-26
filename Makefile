@@ -8,7 +8,7 @@ ARCHS = armv7 armv7s arm64
 include theos/makefiles/common.mk
 
 TWEAK_NAME = messagebox
-messagebox_CFLAGS = -fobjc-arc
+messagebox_CFLAGS = -fobjc-arc -IXcode-Theos
 messagebox_FILES = MBChatHeadWindow.m Tweak.xmi
 messagebox_LIBRARIES = substrate rocketbootstrap
 messagebox_FRAMEWORKS = Foundation CoreGraphics QuartzCore UIKit

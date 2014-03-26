@@ -43,7 +43,7 @@ extern "C" int xpc_connection_get_pid(id connection);
 
 #define XPCObjects "/System/Library/PrivateFrameworks/XPCObjects.framework/XPCObjects"
 
-%group backboarddHooks
+GROUP(backboarddHooks)
 
 static NSDictionary *_prefs;
 
@@ -59,13 +59,13 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
     return orig_XPConnectionHasEntitlement(connection, entitlement);
 }
 
-%end
+END_GROUP()
 
 static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
 }
 
-%ctor {
+CTOR() {
     _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
     if (![_prefs[KEY_ENABLED] boolValue]) {
         return;
@@ -91,7 +91,7 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
             }
         }
 
-        %init(FacebookHooks);
+        INIT(FacebookHooks);
 
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(darwin, NULL, fbResignChatHeads, CFSTR("ca.adambell.messagebox.fbResignChatHeads"), NULL, CFNotificationSuspensionBehaviorCoalesce);
@@ -99,7 +99,7 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
         CFNotificationCenterAddObserver(darwin, NULL, fbForceBackgrounded, CFSTR("ca.adambell.messagebox.fbForceBackgrounded"), NULL, CFNotificationSuspensionBehaviorCoalesce);
     }
     else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
-        %init(SpringBoardHooks);
+        INIT(SpringBoardHooks);
 
         DebugLog(@"BEGIN MESSAGEBOX HOOKS YAY");
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
@@ -109,7 +109,7 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
         DebugLog(@"END MESSAGEBOX HOOKS YAY");
     }
     else {
-        %init(backboarddHooks);
+        INIT(backboarddHooks);
 
         dlopen(XPCObjects, RTLD_LAZY);
 
