@@ -1,7 +1,7 @@
 Package: ca.adambell.messagebox
 Name: messagebox
 Depends: mobilesubstrate, com.rpetrich.rocketbootstrap, firmware (>= 7.0)
-Version: 1.9
+Version: 2.0 
 Architecture: iphoneos-arm
 Description: MessageBox is a jailbreak extension for iOS that allows users to use Facebook Messenger's Chat Heads system-wide in iOS.
 Maintainer: Adam Bell
