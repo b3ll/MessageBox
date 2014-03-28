@@ -75,8 +75,12 @@ HOOK_AND_DECLARE(SBUIController, NSObject)
     CPDistributedMessagingCenter *sbMessagingCenter = [GET_CLASS(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
     rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
     [sbMessagingCenter runServerOnCurrentThread];
-    [sbMessagingCenter registerForMessageName:@"messageboxOpenURL" target:self selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
-    [sbMessagingCenter registerForMessageName:@"messageboxUpdateChatHeadsState" target:self selector:@selector(mb_updateChatHeadsState:withUserInfo:)];
+    [sbMessagingCenter registerForMessageName:@"messageboxOpenURL"
+                                       target:self
+                                     selector:@selector(mb_handleMessageBoxMessage:withUserInfo:)];
+    [sbMessagingCenter registerForMessageName:@"messageboxUpdateChatHeadsState"
+                                       target:self
+                                     selector:@selector(mb_updateChatHeadsState:withUserInfo:)];
 
     return controller;
 }
@@ -157,8 +161,12 @@ NEW()
     [_chatHeadWindow addSubview:facebookHostView];
 
     // TODO: fix flicker when switching from Paper -> Hosted View
-    [NSObject cancelPreviousPerformRequestsWithTarget:_chatHeadWindow selector:@selector(showAnimated) object:nil];
-    [_chatHeadWindow performSelector:@selector(showAnimated) withObject:nil afterDelay:0.6];
+    [NSObject cancelPreviousPerformRequestsWithTarget:_chatHeadWindow
+                                             selector:@selector(showAnimated)
+                                               object:nil];
+    [_chatHeadWindow performSelector:@selector(showAnimated)
+                          withObject:nil
+                          afterDelay:0.6];
 }
 
 NEW()

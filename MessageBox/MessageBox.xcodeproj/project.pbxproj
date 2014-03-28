@@ -294,6 +294,7 @@
 				66D1E08F18E35B9400AECE59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

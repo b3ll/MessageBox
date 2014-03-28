@@ -19,6 +19,8 @@
 #define KEY_ENABLED @"messageBoxEnabled"
 #define KEY_FORCE_ENABLED @"messageBoxForceEnabled"
 
+#define MESSAGE_BOX_PREFERENCES_PATH @"/User/Library/Preferences/ca.adambell.messagebox.plist"
+
 #define MAX_SUPPORTED_VERSION @"1.0.2"
 
 extern "C" int xpc_connection_get_pid(id connection);
@@ -54,11 +56,18 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
 END_GROUP()
 
 static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
+    _prefs = [[NSDictionary alloc] initWithContentsOfFile:MESSAGE_BOX_PREFERENCES_PATH];
 }
 
 CTOR() {
-    _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
+    _prefs = [[NSDictionary alloc] initWithContentsOfFile:MESSAGE_BOX_PREFERENCES_PATH];
+    
+    if (_prefs == nil) {
+        _prefs = @{ KEY_ENABLED : @(YES),
+                    KEY_FORCE_ENABLED : @(NO) };
+        [_prefs writeToFile:MESSAGE_BOX_PREFERENCES_PATH atomically:YES];
+    }
+    
     if (![_prefs[KEY_ENABLED] boolValue]) {
         return;
     }
