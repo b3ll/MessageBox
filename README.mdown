@@ -15,7 +15,7 @@ Open Paper, wait for everything to appear, press the Home button. Magic! :D
 
 **If you open the app and close it super quickly, you're going to have a bad time!**
 
-![MessageBox Preview GIF](../messageboxPreview.gif)
+![MessageBox Preview GIF](demo/messageboxPreview.gif)
 
 ### Price?
 Totally free! If you'd like to support my continuation of this project (and others!), feel free to [donate](http://www.adambell.ca/donate)! It'd be much appreciated :D
