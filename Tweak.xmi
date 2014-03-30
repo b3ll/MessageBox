@@ -18,13 +18,17 @@
 
 #define KEY_ENABLED @"messageBoxEnabled"
 #define KEY_FORCE_ENABLED @"messageBoxForceEnabled"
+#define KEY_USE_PAPER @"messageBoxPaperEnabled"
+#define KEY_USE_FACEBOOK @"messageBoxFacebookEnabled"
 
 #define MESSAGE_BOX_PREFERENCES_PATH @"/User/Library/Preferences/ca.adambell.messagebox.plist"
 
-#define MAX_SUPPORTED_VERSION @"1.0.2"
+#define MAX_SUPPORTED_VERSION_PAPER @"1.0.2"
+#define MAX_SUPPORTED_VERSION_FACEBOOK @"8.0"
 
 extern "C" int xpc_connection_get_pid(id connection);
 
+#include "Paper.xm"
 #include "Facebook.xm"
 #include "SpringBoard.xm"
 
@@ -55,6 +59,39 @@ static int fb_XPConnectionHasEntitlement(id connection, NSString *entitlement) {
 
 END_GROUP()
 
+static BOOL versionNumberIsSupported() {
+    NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString *maxSupportedVersion = nil;
+    
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
+        maxSupportedVersion = MAX_SUPPORTED_VERSION_PAPER;
+    }
+    else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Facebook"]) {
+        maxSupportedVersion = MAX_SUPPORTED_VERSION_FACEBOOK;
+    }
+    else {
+        return NO;
+    }
+    
+    BOOL supported = YES;
+    if (([versionString compare:maxSupportedVersion options:NSNumericSearch] == NSOrderedDescending)) {
+        if (![_prefs[KEY_FORCE_ENABLED] boolValue]) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MessageBox"
+                                                                message:@"Looks like you're using an unsupported version, MessageBox has been disabled :(\n\nYou can attempt to re-enable it using \"Ignore Version Check\" in Settings or wait for an updated version."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView performSelector:@selector(show)
+                            withObject:nil
+                            afterDelay:5.0];
+            supported = NO;
+        }
+        
+    }
+    
+    return supported;
+}
+
 static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _prefs = [[NSDictionary alloc] initWithContentsOfFile:MESSAGE_BOX_PREFERENCES_PATH];
 }
@@ -64,8 +101,22 @@ CTOR() {
     
     if (_prefs == nil) {
         _prefs = @{ KEY_ENABLED : @(YES),
-                    KEY_FORCE_ENABLED : @(NO) };
+                    KEY_FORCE_ENABLED : @(NO),
+                    KEY_USE_PAPER : @(YES),
+                    KEY_USE_FACEBOOK : @(YES) };
         [_prefs writeToFile:MESSAGE_BOX_PREFERENCES_PATH atomically:YES];
+    }
+    
+    if (_prefs[KEY_USE_FACEBOOK] == nil) {
+        NSMutableDictionary *prefs = [_prefs mutableCopy];
+        prefs[KEY_USE_FACEBOOK] = @(YES);
+        _prefs = [prefs copy];
+    }
+    
+    if (_prefs[KEY_USE_PAPER] == nil) {
+        NSMutableDictionary *prefs = [_prefs mutableCopy];
+        prefs[KEY_USE_PAPER] = @(YES);
+        _prefs = [prefs copy];
     }
     
     if (![_prefs[KEY_ENABLED] boolValue]) {
@@ -76,24 +127,26 @@ CTOR() {
     CFNotificationCenterAddObserver(darwin, NULL, messageBoxPrefsChanged, CFSTR("ca.adambell.messagebox.preferences-changed"), NULL, CFNotificationSuspensionBehaviorCoalesce);
 
     if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
-        NSString *versionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-
-        if (([versionString compare:MAX_SUPPORTED_VERSION options:NSNumericSearch] == NSOrderedDescending)) {
-            if (![_prefs[KEY_FORCE_ENABLED] boolValue]) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MessageBox"
-                                                                    message:@"Looks like you're using an unsupported version, MessageBox has been disabled :(\n\nYou can attempt to re-enable it using \"Ignore Version Check\" in Settings or wait for an updated version."
-                                                                   delegate:nil
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                [alertView performSelector:@selector(show)
-                                withObject:nil
-                                afterDelay:5.0];
-                return;
-            }
+        if (![_prefs[KEY_USE_PAPER] boolValue] || !versionNumberIsSupported()) {
+            return;
         }
 
-        INIT(FacebookHooks);
+        INIT(PaperHooks);
 
+        CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
+        CFNotificationCenterAddObserver(darwin, NULL, paperResignChatHeads, CFSTR("ca.adambell.messagebox.paperResignChatHeads"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, paperForceActive, CFSTR("ca.adambell.messagebox.paperForceActive"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, paperForceBackgrounded, CFSTR("ca.adambell.messagebox.paperForceBackgrounded"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+    }
+    else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Facebook"]) {
+        // Placeholder for Facebook App
+        if (![_prefs[KEY_USE_FACEBOOK] boolValue] || !versionNumberIsSupported()) {
+            NSLog(@"GOT HERE SOMEHOW");
+            return;
+        }
+        
+        INIT(FacebookHooks);
+        
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(darwin, NULL, fbResignChatHeads, CFSTR("ca.adambell.messagebox.fbResignChatHeads"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbForceActive, CFSTR("ca.adambell.messagebox.fbForceActive"), NULL, CFNotificationSuspensionBehaviorCoalesce);
@@ -105,8 +158,13 @@ CTOR() {
         DebugLog(@"BEGIN MESSAGEBOX HOOKS YAY");
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.fbLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.paperLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        
+        CFNotificationCenterAddObserver(darwin, NULL, fbQuitting, CFSTR("ca.adambell.messagebox.paperQuitting"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbQuitting, CFSTR("ca.adambell.messagebox.fbQuitting"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        
         CFNotificationCenterAddObserver(darwin, NULL, fbDidTapChatHead, CFSTR("ca.adambell.MessageBox.fbDidTapChatHead"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+
         DebugLog(@"END MESSAGEBOX HOOKS YAY");
     }
     else {

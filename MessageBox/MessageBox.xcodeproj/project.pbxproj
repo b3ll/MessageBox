@@ -12,13 +12,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6696275618E7537800F67BE4 /* Facebook.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = Facebook.xm; path = ../../Facebook.xm; sourceTree = "<group>"; };
 		66D1E06A18E35B9400AECE59 /* libMessageBox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMessageBox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D1E06D18E35B9400AECE59 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66D1E07118E35B9400AECE59 /* MessageBox-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessageBox-Prefix.pch"; sourceTree = "<group>"; };
 		66D1E07B18E35B9400AECE59 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		66D1E07E18E35B9400AECE59 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		66D1E09318E35BC500AECE59 /* Tweak.xmi */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Tweak.xmi; path = ../../Tweak.xmi; sourceTree = "<group>"; };
-		66D1E09418E35BD300AECE59 /* Facebook.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Facebook.xm; path = ../../Facebook.xm; sourceTree = "<group>"; };
+		66D1E09418E35BD300AECE59 /* Paper.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Paper.xm; path = ../../Paper.xm; sourceTree = "<group>"; };
 		66D1E09518E35BD300AECE59 /* SpringBoard.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = SpringBoard.xm; path = ../../SpringBoard.xm; sourceTree = "<group>"; };
 		66D1E09618E35BEA00AECE59 /* messagebox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = messagebox.h; path = ../../messagebox.h; sourceTree = "<group>"; };
 		66D1E09E18E362DA00AECE59 /* rocketbootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rocketbootstrap.h; path = /opt/theos/include/rocketbootstrap.h; sourceTree = "<absolute>"; };
@@ -70,8 +71,9 @@
 				66D1E0A018E362DD00AECE59 /* Headers */,
 				66D1E09618E35BEA00AECE59 /* messagebox.h */,
 				66D1E09318E35BC500AECE59 /* Tweak.xmi */,
-				66D1E09418E35BD300AECE59 /* Facebook.xm */,
+				66D1E09418E35BD300AECE59 /* Paper.xm */,
 				66D1E09518E35BD300AECE59 /* SpringBoard.xm */,
+				6696275618E7537800F67BE4 /* Facebook.xm */,
 				66D1E07018E35B9400AECE59 /* Supporting Files */,
 			);
 			path = MessageBox;
@@ -152,7 +154,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH=${PATH}:/opt/local/bin\ncd ../\nmake package install";
+			shellScript = "PATH=${PATH}:/opt/local/bin\ncd ../\nmake clean package install";
 		};
 /* End PBXShellScriptBuildPhase section */
 

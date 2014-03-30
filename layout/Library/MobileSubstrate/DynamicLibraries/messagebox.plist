@@ -1,5 +1,13 @@
-Filter = {
-    Bundles = ( "com.facebook.Paper", "com.apple.springboard" );
-    Executables = ("backboardd");
-    Mode = "Any";
-};
+{
+	Filter = {
+		Bundles = (
+			"com.facebook.Paper",
+			"com.apple.springboard",
+			"com.facebook.Facebook",
+		);
+		Executables = (
+			backboardd,
+		);
+		Mode = Any;
+	};
+}

@@ -34,10 +34,13 @@ static void fbLaunching(CFNotificationCenterRef center, void *observer, CFString
 }
 
 static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindow];
+    if ([(__bridge NSString*)name rangeOfString:@"paper"].location != NSNotFound)
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Paper"];
+    else
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];
 }
 
-HOOK_AND_DECLARE(SBUIController, NSObject)
+HOOK(SBUIController)
 
 //Stack up the chat heads when the home button is pressed
 
@@ -45,19 +48,21 @@ HOOK_AND_DECLARE(SBUIController, NSObject)
     //To keep in app as stock as possible, don't intercept the home button when the app is active
     //So only take action if FB is active but in the background
     if ([_keepAlive valid] && _chatHeadPopoverCanBeDismissed) {
+        notify_post("ca.adambell.messagebox.paperResignChatHeads");
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
         return YES;
     }
 
-    return ORIG();
+    return ORIG_T();
 }
 
 - (BOOL)handleMenuDoubleTap {
     if ([_keepAlive valid]) {
+        notify_post("ca.adambell.messagebox.paperResignChatHeads");
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
     }
 
-    return ORIG();
+    return ORIG_T();
 }
 
 - (id)init {
@@ -122,8 +127,8 @@ NEW()
 }
 
 NEW()
-- (void)mb_addChatHeadWindow {
-    int facebookPID = PIDForProcessNamed(@"Paper");
+- (void)mb_addChatHeadWindowForApp:(NSString *)appName {
+    int facebookPID = PIDForProcessNamed(appName);
     if (facebookPID == 0)
         return;
 
@@ -142,7 +147,7 @@ NEW()
                      DebugLog(@"FACEBOOK PID: %d kept alive: %@", facebookPID, [_keepAlive valid] > 0 ? @"TRUE" : @"FALSE");
                  }];
 
-    SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
+    SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:[NSString stringWithFormat:@"com.facebook.%@", appName]];
 
     SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
 
@@ -202,6 +207,7 @@ HOOK_AND_DECLARE(SBAppSliderController, NSObject)
 }
 
 - (void)switcherWasPresented:(BOOL)arg1 {
+    notify_post("ca.adambell.messagebox.paperResignChatHeads");
     notify_post("ca.adambell.messagebox.fbResignChatHeads");
     [[MBChatHeadWindow sharedInstance] hideAnimated];
     ORIG();

@@ -77,11 +77,15 @@
 @interface SBIconController : NSObject
 + (instancetype)sharedInstance;
 
-- (void)mb_addChatHeadWindow;
-- (void)mb_removeChatHeadWindow;
-
 - (void)setIsEditing:(BOOL)editing;
 - (BOOL)isEditing;
+@end
+
+@interface SBUIController : NSObject
++ (instancetype)sharedInstance;
+
+- (void)mb_addChatHeadWindowForApp:(NSString *)appName;
+- (void)mb_removeChatHeadWindow;
 @end
 
 @interface BKProcessAssertion : NSObject
@@ -187,6 +191,11 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 @interface FBMInboxViewController : UIViewController
 
 @property(nonatomic, strong) FBMInboxView *inboxView;
+@end
+
+@interface AppDelegate : NSObject
+- (void)mb_setUIHiddenForMessageBox:(BOOL)hidden;
+- (void)mb_openURL:(NSURL *)url;
 @end
 
 inline int PIDForProcessNamed(NSString *passedInProcessName) {
