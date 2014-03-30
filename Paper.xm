@@ -128,8 +128,8 @@ HOOK(AppDelegate)
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    notify_post("ca.adambell.messagebox.fbLaunching");
-    DebugLog(@"FACEBOOK OPENING RIGHT NOW");
+    notify_post("ca.adambell.messagebox.paperLaunching");
+    DebugLog(@"PAPER OPENING RIGHT NOW");
 
     FBApplicationController *controller = [GET_CLASS(FBApplicationController) mb_sharedInstance];
     [controller mb_setUIHiddenForMessageBox:NO];

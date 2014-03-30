@@ -32,6 +32,14 @@
 			<string>Enabled</string>
 		</dict>
 		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Enabling both of these will grant unexpected results (might cause the planet to implode).</string>
+			<key>height</key>
+			<integer>20</integer>
+		</dict>
+		<dict>
 			<key>PostNotification</key>
 			<string>ca.adambell.messagebox.preferences-changed</string>
 			<key>cell</key>

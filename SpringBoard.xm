@@ -17,13 +17,15 @@
 static MBChatHeadWindow *_chatHeadWindow;
 static BKSProcessAssertion *_keepAlive;
 
+static __weak SBWindowContextHostWrapperView *_hostView;
+
 static BOOL _chatHeadPopoverCanBeDismissed;
 
 GROUP(SpringBoardHooks)
 
 static void fbDidTapChatHead(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     SBIconController *iconController = [GET_CLASS(SBIconController) sharedInstance];
-
+    
     //If icons are wiggling and a chat head is tapped, stop the wiggling
     if (iconController.isEditing)
         [iconController setIsEditing:NO];
@@ -52,7 +54,7 @@ HOOK(SBUIController)
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
         return YES;
     }
-
+    
     return ORIG_T();
 }
 
@@ -61,13 +63,13 @@ HOOK(SBUIController)
         notify_post("ca.adambell.messagebox.paperResignChatHeads");
         notify_post("ca.adambell.messagebox.fbResignChatHeads");
     }
-
+    
     return ORIG_T();
 }
 
 - (id)init {
     SBUIController *controller = ORIG();
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mb_screenOn:)
                                                  name:@"SBLockScreenUndimmedNotification"
@@ -76,7 +78,7 @@ HOOK(SBUIController)
                                              selector:@selector(mb_screenOff:)
                                                  name:@"SBLockScreenDimmedNotification"
                                                object:nil];
-
+    
     CPDistributedMessagingCenter *sbMessagingCenter = [GET_CLASS(CPDistributedMessagingCenter) centerNamed:@"ca.adambell.MessageBox.sbMessagingCenter"];
     rocketbootstrap_distributedmessagingcenter_apply(sbMessagingCenter);
     [sbMessagingCenter runServerOnCurrentThread];
@@ -86,7 +88,7 @@ HOOK(SBUIController)
     [sbMessagingCenter registerForMessageName:@"messageboxUpdateChatHeadsState"
                                        target:self
                                      selector:@selector(mb_updateChatHeadsState:withUserInfo:)];
-
+    
     return controller;
 }
 
@@ -94,10 +96,10 @@ NEW()
 - (void)mb_handleMessageBoxMessage:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
     if ([message isEqualToString:@"messageboxOpenURL"]) {
         NSString *urlString = userInfo[@"url"];
-
+        
         if (urlString != nil) {
             NSURL *url = [NSURL URLWithString:urlString];
-
+            
             if (url != nil) {
                 [[UIApplication sharedApplication] openURL:url];
             }
@@ -109,7 +111,7 @@ NEW()
 - (void)mb_updateChatHeadsState:(NSString *)message withUserInfo:(NSDictionary *)userInfo {
     if ([message isEqualToString:@"messageboxUpdateChatHeadsState"]) {
         NSNumber *chatHeadsPopoverOpened = userInfo[@"opened"];
-
+        
         if (chatHeadsPopoverOpened != nil) {
             _chatHeadPopoverCanBeDismissed = chatHeadsPopoverOpened.boolValue;
         }
@@ -131,40 +133,48 @@ NEW()
     int facebookPID = PIDForProcessNamed(appName);
     if (facebookPID == 0)
         return;
-
+    
     if (_keepAlive != nil)
         [_keepAlive invalidate];
-
+    
     _keepAlive = [[GET_CLASS(BKSProcessAssertion) alloc] initWithPID:facebookPID
-                                                   flags:(ProcessAssertionFlagPreventSuspend |
-                                                          ProcessAssertionFlagAllowIdleSleep |
-                                                          ProcessAssertionFlagPreventThrottleDownCPU |
-                                                          ProcessAssertionFlagWantsForegroundResourcePriority)
-                                                  reason:kProcessAssertionReasonBackgroundUI
-                                                    name:@"epichax"
-                                             withHandler:^void (void)
-                 {
-                     DebugLog(@"FACEBOOK PID: %d kept alive: %@", facebookPID, [_keepAlive valid] > 0 ? @"TRUE" : @"FALSE");
-                 }];
-
+                                                               flags:(ProcessAssertionFlagPreventSuspend |
+                                                                      ProcessAssertionFlagAllowIdleSleep |
+                                                                      ProcessAssertionFlagPreventThrottleDownCPU |
+                                                                      ProcessAssertionFlagWantsForegroundResourcePriority)
+                                                              reason:kProcessAssertionReasonBackgroundUI
+                                                                name:@"epichax"
+                                                         withHandler:^void (void)
+                  {
+                      DebugLog(@"FACEBOOK PID: %d kept alive: %@", facebookPID, [_keepAlive valid] > 0 ? @"TRUE" : @"FALSE");
+                  }];
+    
+    // Remove hosting if we try to add it again, don't want double hosted views!
+    if (_hostView != nil) {
+        SBWindowContextHostManager *manager = [_hostView valueForKey:@"_manager"];
+        [manager disableHostingForRequester:@"hax"];
+    }
+    
     SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:[NSString stringWithFormat:@"com.facebook.%@", appName]];
-
+    
     SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
-
+    
     SBWindowContextHostWrapperView *facebookHostView = [contextHostManager hostViewForRequester:@"hax" enableAndOrderFront: YES];
     facebookHostView.backgroundColorWhileNotHosting = [UIColor clearColor];
     facebookHostView.backgroundColorWhileHosting = [UIColor clearColor];
-
+    
+    _hostView = facebookHostView;
+    
     for (UIView *subview in facebookHostView.subviews) {
         subview.backgroundColor = [UIColor clearColor];
     }
-
+    
     for (UIView *subview in [_chatHeadWindow.subviews copy]) {
         [subview removeFromSuperview];
     }
-
+    
     [_chatHeadWindow addSubview:facebookHostView];
-
+    
     // TODO: fix flicker when switching from Paper -> Hosted View
     [NSObject cancelPreviousPerformRequestsWithTarget:_chatHeadWindow
                                              selector:@selector(showAnimated)
@@ -179,21 +189,30 @@ NEW()
     if (_keepAlive != nil) {
         // Kill the BKSProcessAssertion because it isn't needed anymore
         // Not sure if creating / removing it is necessary but I'd like to keep it as stock as possible when in app)
-
+        
         [_keepAlive invalidate];
         _keepAlive = nil;
-
+        
+        // Remove Paper (if necessary)
         SBApplication *facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Paper"];
-
-        SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
-
-        [contextHostManager disableHostingForRequester:@"hax"];
-
+        
+        if (facebookApplication != nil) {
+            SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
+            [contextHostManager disableHostingForRequester:@"hax"];
+        }
+        
+        // Remove Facebook (if necessary)
+        facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Facebook"];
+        if (facebookApplication != nil) {
+            SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
+            [contextHostManager disableHostingForRequester:@"hax"];
+        }
+        
         for (UIView *subview in [[MBChatHeadWindow sharedInstance].subviews copy]) {
             [subview removeFromSuperview];
         }
     }
-
+    
     [_chatHeadWindow hide];
 }
 
@@ -219,13 +238,13 @@ HOOK(UIWindow)
 
 - (void)makeKeyAndVisible {
     ORIG();
-
+    
     if (self != _chatHeadWindow) {
         if (_chatHeadWindow == nil) {
             _chatHeadWindow = [MBChatHeadWindow sharedInstance];
             _chatHeadWindow.backgroundColor = [UIColor clearColor];
         }
-
+        
         _chatHeadWindow.windowLevel = 10; //1 below UIKeyboard //UIWindowLevelStatusBar;
         _chatHeadWindow.hidden = NO;
         _chatHeadWindow.backgroundColor = [UIColor clearColor];
