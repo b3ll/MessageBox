@@ -186,7 +186,7 @@ NEW()
         chatHeadWindowFrame.size.height -= 20.0;
     }
 
-    [UIApplication sharedApplication].keyWindow.frame = chatHeadWindowFrame;
+    self.messengerModule.chatHeadViewController.chatHeadSurfaceView.frame = chatHeadWindowFrame;
 
     for (UIView *subview in [UIApplication sharedApplication].keyWindow.subviews) {
         [subview setNeedsLayout];
@@ -298,6 +298,21 @@ HOOK(FBChatHeadSurfaceView)
     [sbMessagingCenter sendMessageName:@"messageboxUpdateChatHeadsState" userInfo:@{ @"opened" : @(currentLayout == self.openedLayout) }];
 
     ORIG();
+}
+
+- (void)setFrame:(CGRect)frame {
+    if (_UIHiddenForMessageBox_paper) {
+        CGRect chatHeadWindowFrame = [UIScreen mainScreen].bounds;
+        if (_UIHiddenForMessageBox_paper) {
+            chatHeadWindowFrame.origin.y += 20.0;
+            chatHeadWindowFrame.size.height -= 20.0;
+        }
+        
+        ORIG(chatHeadWindowFrame);
+    }
+    else {
+        ORIG();
+    }
 }
 
 END()
