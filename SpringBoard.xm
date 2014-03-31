@@ -121,11 +121,13 @@ NEW()
 NEW()
 - (void)mb_screenOn:(NSNotification *)notification {
     notify_post("ca.adambell.messagebox.fbForceActive");
+    notify_post("ca.adambell.messagebox.paperForceActive");
 }
 
 NEW()
 - (void)mb_screenOff:(NSNotification *)notification {
     notify_post("ca.adambell.messagebox.fbForceBackground");
+    notify_post("ca.adambell.messagebox.paperForceBackground");
 }
 
 NEW()
