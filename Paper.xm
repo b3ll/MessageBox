@@ -109,10 +109,12 @@ END()
 HOOK(UIApplication)
 
 - (UIApplicationState)applicationState {
-    if (_ignoreBackgroundedNotifications_paper)
+    if (_ignoreBackgroundedNotifications_paper) {
         return UIApplicationStateActive;
-    else
+    }
+    else {
         return (UIApplicationState)ORIG_T();
+    }
 }
 
 END()

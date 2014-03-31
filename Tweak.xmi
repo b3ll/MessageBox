@@ -12,7 +12,9 @@
 #define ROTATION_PORTRAIT_UPSIDEDOWN_NOTIFICATION "ca.adambell.messagebox.fbShouldRotatePortraitUpsideDown"
 #define ROTATION_LANDSCAPE_LEFT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateLandscapeLeft"
 #define ROTATION_LANDSCAPE_RIGHT_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateLandscapeRight"
+
 #define DEVICE_ORIENTATION_CHANGED_NOTIFICATION "ca.adambell.messagebox.fbShouldRotateToDeviceOrientation"
+
 #define PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.pushNotificationReceived"
 #define GENERAL_PUSH_NOTIFICATION_RECEIVED "ca.adambell.messagebox.generalPushNotificationReceived"
 
@@ -28,6 +30,7 @@
 
 extern "C" int xpc_connection_get_pid(id connection);
 
+#include "UIKit.xm"
 #include "Paper.xm"
 #include "Facebook.xm"
 #include "SpringBoard.xm"
@@ -126,7 +129,10 @@ CTOR() {
     CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
     CFNotificationCenterAddObserver(darwin, NULL, messageBoxPrefsChanged, CFSTR("ca.adambell.messagebox.preferences-changed"), NULL, CFNotificationSuspensionBehaviorCoalesce);
 
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.facebook.Paper"]) {
+    BOOL needsUIKitHooks = NO;
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    
+    if ([bundleIdentifier isEqualToString:@"com.facebook.Paper"]) {
         if (![_prefs[KEY_USE_PAPER] boolValue] || !versionNumberIsSupported()) {
             return;
         }
@@ -151,11 +157,21 @@ CTOR() {
         CFNotificationCenterAddObserver(darwin, NULL, fbResignChatHeads, CFSTR("ca.adambell.messagebox.fbResignChatHeads"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbForceActive, CFSTR("ca.adambell.messagebox.fbForceActive"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbForceBackgrounded, CFSTR("ca.adambell.messagebox.fbForceBackgrounded"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-    }
-    else if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
-        INIT(SpringBoardHooks);
+        
+        // Rotation Handling
+        CFNotificationCenterAddObserver(darwin, NULL, fbShouldRotate, CFSTR(ROTATION_PORTRAIT_NOTIFICATION), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbShouldRotate, CFSTR(ROTATION_PORTRAIT_UPSIDEDOWN_NOTIFICATION), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbShouldRotate, CFSTR(ROTATION_LANDSCAPE_LEFT_NOTIFICATION), NULL, CFNotificationSuspensionBehaviorCoalesce);
+        CFNotificationCenterAddObserver(darwin, NULL, fbShouldRotate, CFSTR(ROTATION_LANDSCAPE_RIGHT_NOTIFICATION), NULL, CFNotificationSuspensionBehaviorCoalesce);
 
+    }
+    else if ([bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
+        needsUIKitHooks = YES;
+        
+        INIT(SpringBoardHooks);
+        
         DebugLog(@"BEGIN MESSAGEBOX HOOKS YAY");
+
         CFNotificationCenterRef darwin = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.fbLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
         CFNotificationCenterAddObserver(darwin, NULL, fbLaunching, CFSTR("ca.adambell.messagebox.paperLaunching"), NULL, CFNotificationSuspensionBehaviorCoalesce);
@@ -167,7 +183,7 @@ CTOR() {
 
         DebugLog(@"END MESSAGEBOX HOOKS YAY");
     }
-    else {
+    else if ([bundleIdentifier isEqualToString:@"com.apple.backboardd"]) {
         INIT(backboarddHooks);
 
         dlopen(XPCObjects, RTLD_LAZY);
@@ -175,5 +191,12 @@ CTOR() {
         void *xpcFunction = MSFindSymbol(NULL, "_XPCConnectionHasEntitlement");
 
         MSHookFunction(xpcFunction, (void *)fb_XPConnectionHasEntitlement, (void **)&orig_XPConnectionHasEntitlement);
+    }
+    else {
+        needsUIKitHooks = YES;
+    }
+    
+    if (needsUIKitHooks) {
+        INIT(UIKitHooks);
     }
 }

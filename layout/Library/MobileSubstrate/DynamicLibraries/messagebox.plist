@@ -4,6 +4,7 @@
 			"com.facebook.Paper",
 			"com.apple.springboard",
 			"com.facebook.Facebook",
+			"com.apple.UIKit",
 		);
 		Executables = (
 			backboardd,
