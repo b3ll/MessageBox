@@ -49,18 +49,40 @@ static void fbForceActive(CFNotificationCenterRef center, void *observer, CFStri
 
 static void fbForceBackgrounded(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     _ignoreBackgroundedNotifications_facebook = NO;
+    
     [[[UIApplication sharedApplication] delegate] applicationDidEnterBackground:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil userInfo:nil];
 }
 
+static void fbShouldRotate(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    UIInterfaceOrientation newOrientation = UIInterfaceOrientationPortrait;
+    
+    DebugLog(@"FACEBOOK SHOULD ACTUALLY ROTATE");
+    
+    if ([(__bridge NSString *)name isEqualToString:@ROTATION_PORTRAIT_UPSIDEDOWN_NOTIFICATION]) {
+        newOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    }
+    else if ([(__bridge NSString *)name isEqualToString:@ROTATION_LANDSCAPE_LEFT_NOTIFICATION]) {
+        newOrientation = UIInterfaceOrientationLandscapeLeft;
+    }
+    else if ([(__bridge NSString *)name isEqualToString:@ROTATION_LANDSCAPE_RIGHT_NOTIFICATION]){
+        newOrientation = UIInterfaceOrientationLandscapeRight;
+    }
+    
+    [(AppDelegate *)[UIApplication sharedApplication].delegate mb_forceRotationToInterfaceOrientation:newOrientation];
+}
+
+
 HOOK(UIApplication)
 
 - (UIApplicationState)applicationState {
-    if (_ignoreBackgroundedNotifications_facebook)
+    if (_ignoreBackgroundedNotifications_facebook) {
         return UIApplicationStateActive;
-    else
+    }
+    else {
         return (UIApplicationState)ORIG_T();
-        }
+    }
+}
 
 END()
 
@@ -215,6 +237,10 @@ NEW()
         default:
             break;
     }
+    
+    [_messengerModule.chatHeadViewController.chatHeadSurfaceView performSelector:@selector(updateChatHeadsPosition)
+                                                                      withObject:nil
+                                                                      afterDelay:0.25f];
 }
 
 END()

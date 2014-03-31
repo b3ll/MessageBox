@@ -12,6 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		664C5D9718EA0CEC0057E987 /* UIKit.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = UIKit.xm; path = ../../UIKit.xm; sourceTree = "<group>"; };
 		6696275618E7537800F67BE4 /* Facebook.xm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = Facebook.xm; path = ../../Facebook.xm; sourceTree = "<group>"; };
 		66D1E06A18E35B9400AECE59 /* libMessageBox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMessageBox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D1E06D18E35B9400AECE59 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -74,6 +75,7 @@
 				66D1E09418E35BD300AECE59 /* Paper.xm */,
 				66D1E09518E35BD300AECE59 /* SpringBoard.xm */,
 				6696275618E7537800F67BE4 /* Facebook.xm */,
+				664C5D9718EA0CEC0057E987 /* UIKit.xm */,
 				66D1E07018E35B9400AECE59 /* Supporting Files */,
 			);
 			path = MessageBox;

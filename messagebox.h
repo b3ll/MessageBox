@@ -151,6 +151,7 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 @property(nonatomic, strong) FBChatHeadLayout *openedLayout;
 
 - (void)sortChatHeads;
+- (void)updateChatHeadsPosition;
 @end
 
 @interface FBChatHeadViewController : UIViewController
@@ -196,6 +197,7 @@ typedef NS_ENUM(NSUInteger, ProcessAssertionFlags)
 @interface AppDelegate : NSObject
 - (void)mb_setUIHiddenForMessageBox:(BOOL)hidden;
 - (void)mb_openURL:(NSURL *)url;
+- (void)mb_forceRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation;
 @end
 
 inline int PIDForProcessNamed(NSString *passedInProcessName) {

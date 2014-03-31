@@ -36,10 +36,10 @@ static void fbLaunching(CFNotificationCenterRef center, void *observer, CFString
 }
 
 static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-    if ([(__bridge NSString*)name rangeOfString:@"paper"].location != NSNotFound)
+    /*if ([(__bridge NSString*)name rangeOfString:@"paper"].location != NSNotFound)
         [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Paper"];
     else
-        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];*/
 }
 
 HOOK(SBUIController)
@@ -181,7 +181,7 @@ NEW()
                                                object:nil];
     [_chatHeadWindow performSelector:@selector(showAnimated)
                           withObject:nil
-                          afterDelay:0.6];
+                          afterDelay:0.2];
 }
 
 NEW()
@@ -203,6 +203,7 @@ NEW()
         
         // Remove Facebook (if necessary)
         facebookApplication = [[GET_CLASS(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:@"com.facebook.Facebook"];
+        
         if (facebookApplication != nil) {
             SBWindowContextHostManager *contextHostManager = [facebookApplication mainScreenContextHostManager];
             [contextHostManager disableHostingForRequester:@"hax"];
@@ -249,6 +250,25 @@ HOOK(UIWindow)
         _chatHeadWindow.hidden = NO;
         _chatHeadWindow.backgroundColor = [UIColor clearColor];
     }
+}
+
+END()
+
+HOOK_AND_DECLARE(SBWorkspace, NSObject)
+
+- (void)workspace:(id)arg1 applicationSuspended:(NSString *)bundleIdentifier withSettings:(id)arg3 {
+    if ([bundleIdentifier isEqualToString:@"com.facebook.Facebook"]) {
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];
+    }
+    
+    if ([bundleIdentifier isEqualToString:@"com.facebook.Paper"]) {
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Paper"];
+    }
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    forceFacebookApplicationRotation(orientation);
+    
+    ORIG();
 }
 
 END()
