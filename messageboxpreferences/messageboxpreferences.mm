@@ -3,6 +3,8 @@
 
 #define KEY_ENABLED @"messageBoxEnabled"
 #define KEY_FORCE_ENABLED @"messageBoxForceEnabled"
+#define KEY_USE_PAPER @"messageBoxPaperEnabled"
+#define KEY_USE_FACEBOOK @"messageBoxFacebookEnabled"
 
 @interface messageboxpreferencesListController: PSListController <UIAlertViewDelegate> {
 }
@@ -43,6 +45,20 @@ static void messageBoxPrefsChanged(CFNotificationCenterRef center, void *observe
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:@"Respring", nil];
         [alertView show];
+    }
+
+    BOOL paperEnabled = [prefs[KEY_USE_PAPER] boolValue];
+    BOOL paperPreviouslyEnabled = [_prefs[KEY_USE_PAPER] boolValue];
+
+    if (paperEnabled != paperPreviouslyEnabled) {
+        system("killall Paper");
+    }
+
+    BOOL facebookEnabled = [prefs[KEY_USE_FACEBOOK] boolValue];
+    BOOL facebookPreviouslyEnabled = [_prefs[KEY_USE_FACEBOOK] boolValue];
+
+    if (facebookEnabled != facebookPreviouslyEnabled) {
+        system("killall Facebook");
     }
 
     _prefs = [[NSDictionary alloc] initWithContentsOfFile:@"/User/Library/Preferences/ca.adambell.messagebox.plist"];
