@@ -42,6 +42,25 @@ static void fbQuitting(CFNotificationCenterRef center, void *observer, CFStringR
         [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];*/
 }
 
+HOOK_AND_DECLARE(SBWorkspace, NSObject)
+
+- (void)workspace:(id)arg1 applicationSuspended:(NSString *)bundleIdentifier withSettings:(id)arg3 {
+    if ([bundleIdentifier isEqualToString:@"com.facebook.Facebook"]) {
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];
+    }
+    
+    if ([bundleIdentifier isEqualToString:@"com.facebook.Paper"]) {
+        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Paper"];
+    }
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    forceFacebookApplicationRotation(orientation);
+    
+    ORIG();
+}
+
+END()
+
 HOOK(SBUIController)
 
 //Stack up the chat heads when the home button is pressed
@@ -255,21 +274,13 @@ HOOK(UIWindow)
 
 END()
 
-HOOK_AND_DECLARE(SBWorkspace, NSObject)
+HOOK(SBIconController)
 
-- (void)workspace:(id)arg1 applicationSuspended:(NSString *)bundleIdentifier withSettings:(id)arg3 {
-    if ([bundleIdentifier isEqualToString:@"com.facebook.Facebook"]) {
-        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Facebook"];
-    }
-    
-    if ([bundleIdentifier isEqualToString:@"com.facebook.Paper"]) {
-        [[GET_CLASS(SBUIController) sharedInstance] mb_addChatHeadWindowForApp:@"Paper"];
-    }
+- (void)didRotateFromInterfaceOrientation:(long long)interfaceOrientation {
+    ORIG();
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     forceFacebookApplicationRotation(orientation);
-    
-    ORIG();
 }
 
 END()
