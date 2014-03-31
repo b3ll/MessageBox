@@ -46,7 +46,6 @@ static void paperForceBackgrounded(CFNotificationCenterRef center, void *observe
 // Keyboards also need to be shown when the app is backgrounded
 HOOK(UITextEffectsWindow)
 
-//TODO: Pretty sure this isn't necessary, figure out later
 - (id)init {
     UITextEffectsWindow *window = ORIG();
     [window setKeepContextInBackground:YES];

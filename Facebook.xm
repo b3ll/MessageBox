@@ -20,7 +20,6 @@ GROUP(FacebookHooks)
 // Keyboards also need to be shown when the app is backgrounded
 HOOK(UITextEffectsWindow)
 
-//TODO: Pretty sure this isn't necessary, figure out later
 - (id)init {
     UITextEffectsWindow *window = ORIG();
     [window setKeepContextInBackground:YES];
@@ -33,6 +32,14 @@ HOOK(UITextEffectsWindow)
 
 - (BOOL)keepContextInBackground {
     return YES;
+}
+
+- (CGFloat)windowLevel {
+    return KEYBOARD_WINDOW_LEVEL;
+}
+
+- (void)setWindowLevel:(CGFloat)windowLevel {
+    ORIG(KEYBOARD_WINDOW_LEVEL);
 }
 
 END()
