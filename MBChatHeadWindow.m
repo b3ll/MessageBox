@@ -61,7 +61,7 @@
 
     [self.layer removeAllAnimations];
 
-    CATransform3D scaleTransform = CATransform3DMakeScale(1.4, 1.0, 1.0);
+    CATransform3D scaleTransform = CATransform3DMakeScale(1.48, 1.48, 1.0);
     self.layer.transform = CATransform3DIdentity;
 
 #ifdef USE_SPRINGS
@@ -90,7 +90,7 @@
 
     [self.layer removeAllAnimations];
 
-    CATransform3D scaleTransform = CATransform3DMakeScale(1.4, 1.0, 1.0);
+    CATransform3D scaleTransform = CATransform3DMakeScale(1.48, 1.48, 1.0);
     self.layer.transform = scaleTransform;
 
 #ifdef USE_SPRINGS
